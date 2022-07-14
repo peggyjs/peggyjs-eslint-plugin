@@ -4,9 +4,9 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "node test/*.js",
+    "test": "node --test",
     "coverage": "c8 npm test",
-    "lint": "eslint . --ext peggy,pegjs,js,cjs,mjs"
+    "lint": "eslint . --ext peggy,js"
   },
   "keywords": [],
   "author": "Joe Hildebrand <joe-github@cursive.net>",

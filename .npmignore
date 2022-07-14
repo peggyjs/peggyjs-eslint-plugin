@@ -1,6 +1,7 @@
 .c8rc.json
 .editorconfig
 .eslintrc.js
+.github/
 .gitignore
 .vscode/
 coverage/
