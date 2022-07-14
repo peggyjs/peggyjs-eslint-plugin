@@ -2,4 +2,7 @@
 .editorconfig
 .eslintrc.js
 .gitignore
+.vscode/
 coverage/
+examples/
+test/
