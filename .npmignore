@@ -1,0 +1,5 @@
+.c8rc.json
+.editorconfig
+.eslintrc.js
+.gitignore
+coverage/

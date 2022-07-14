@@ -1,0 +1,10 @@
+{
+  "exclude": [
+    "coverage/**",
+    "test{,s}/**",
+    "**/.{eslint,mocha}rc.{js,cjs}"
+  ],
+  "reporter": [
+    "lcov"
+  ]
+}

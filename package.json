@@ -1,0 +1,26 @@
+{
+  "name": "eslint-plugin-peggy",
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "node test/*.js",
+    "coverage": "c8 npm test",
+    "lint": "eslint . --ext peggy,pegjs,js,cjs,mjs"
+  },
+  "keywords": [],
+  "author": "Joe Hildebrand <joe-github@cursive.net>",
+  "license": "MIT",
+  "devDependencies": {
+    "@peggyjs/eslint-config": "2.0.0",
+    "c8": "7.11.3",
+    "eslint": "8.19.0"
+  },
+  "dependencies": {
+    "peggy": "github:peggyjs/peggy",
+    "source-map-js": "1.0.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
