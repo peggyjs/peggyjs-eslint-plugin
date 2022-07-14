@@ -16,7 +16,7 @@ foo
   = o:"one" t:$"t"+ &{ return t.length > NUM_T; } !{ return t.length > 2 * NUM_T; } {
     return ONE;
   }
-`, __filename);
+`, "processor.peggy");
   assert.equal(res.length, 1);
 
   const messages = [[{
@@ -41,6 +41,47 @@ foo
     endColumn: 23,
   }]];
 
-  const mapped = processor.postprocess(messages, __filename);
+  const mapped = processor.postprocess(messages, "processor.peggy");
+  assert.equal(mapped.length, messages[0].length);
+});
+
+test("fix", () => {
+  const res = processor.preprocess(`\
+{{
+const FOO = "foo";
+}}
+
+{
+const BASE = options.base || 10
+}
+
+bar
+  = first:pos  rest:("," @num)* { return [FOO, first, ...rest]; }
+
+pos
+  = n:num !{ return n > 0; }
+
+num
+  = n:$[0-9]+ { return parseInt(n, BASE); }
+
+`, "fix.peggy");
+  assert.equal(res.length, 1);
+
+  const messages = [[
+    {
+      ruleId: "semi",
+      severity: 2,
+      message: "Missing semicolon.",
+      line: 24,
+      column: 34,
+      nodeType: "VariableDeclaration",
+      messageId: "missingSemi",
+      endLine: 25,
+      endColumn: 1,
+      fix: { range: [476, 476], text: ";" },
+    },
+  ]];
+
+  const mapped = processor.postprocess(messages, "fix.peggy");
   assert.equal(mapped.length, messages[0].length);
 });
