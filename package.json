@@ -8,18 +8,29 @@
     "coverage": "c8 npm test",
     "lint": "eslint . --ext peggy,js"
   },
-  "keywords": [],
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "grammar",
+    "lint",
+    "peg.js",
+    "peggy"
+  ],
   "author": "Joe Hildebrand <joe-github@cursive.net>",
   "license": "MIT",
   "devDependencies": {
     "@peggyjs/eslint-config": "2.0.0",
     "@types/eslint": "8.4.5",
     "c8": "7.11.3",
-    "eslint": "8.19.0"
+    "eslint": "8.19.0",
+    "eslint-plugin-eslint-plugin": "5.0.0"
   },
   "dependencies": {
     "peggy": "github:peggyjs/peggy",
     "source-map-js": "1.0.2"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.19.0"
   },
   "engines": {
     "node": ">=18"

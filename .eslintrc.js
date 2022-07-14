@@ -2,7 +2,7 @@
 
 module.exports = {
   root: true,
-  extends: "@peggyjs",
+  extends: ["@peggyjs", "plugin:eslint-plugin/recommended"],
   parserOptions: {
     ecmaVersion: 2020,
   },
@@ -13,6 +13,10 @@ module.exports = {
       imports: "always-multiline",
       exports: "always-multiline",
       functions: "never",
+    }],
+    "capitalized-comments": ["error", "always", {
+      "ignorePattern": "c8",
+      "ignoreConsecutiveComments": true,
     }],
   },
 };
