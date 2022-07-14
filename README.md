@@ -55,3 +55,6 @@ Add the following to your project's `.vscode/settings.json` file:
   ]
 }
 ```
+
+[![Tests](https://github.com/hildjj/eslint-plugin-peggy/actions/workflows/node.js.yml/badge.svg)](https://github.com/hildjj/eslint-plugin-peggy/actions/workflows/node.js.yml)
+[![codecov](https://codecov.io/gh/hildjj/eslint-plugin-peggy/branch/main/graph/badge.svg?token=PYAF34DQ6B)](https://codecov.io/gh/hildjj/eslint-plugin-peggy)
