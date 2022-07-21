@@ -27,7 +27,9 @@ module.exports = {
   overrides: [
     {
       files: ["*.peggy", "*.pegjs"],
-      processor: "peggy/peggy",
+      rules: {
+
+      },
     },
     {
       files: ["**/*.peggy/*.js", "**/*.pegjs/*.js"],

@@ -19,14 +19,18 @@
   "author": "Joe Hildebrand <joe-github@cursive.net>",
   "license": "MIT",
   "devDependencies": {
-    "@peggyjs/eslint-config": "2.0.0",
+    "@peggyjs/eslint-parser": "github:peggyjs/peggyjs-eslint-parser",
+    "@peggyjs/eslint-config": "3.0.0",
     "@types/eslint": "8.4.5",
-    "c8": "7.11.3",
-    "eslint": "8.19.0",
-    "eslint-plugin-eslint-plugin": "5.0.0"
+    "@types/node": "18.0.6",
+    "@types/requireindex": "1.2.0",
+    "c8": "7.12.0",
+    "eslint": "8.20.0",
+    "eslint-plugin-eslint-plugin": "5.0.1"
   },
   "dependencies": {
     "peggy": "github:peggyjs/peggy",
+    "requireindex": "1.2.0",
     "source-map-js": "1.0.2"
   },
   "peerDependencies": {

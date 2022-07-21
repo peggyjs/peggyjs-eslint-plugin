@@ -17,9 +17,9 @@ foo
     return ONE;
   }
 `, "processor.peggy");
-  assert.equal(res.length, 1);
+  assert.equal(res.length, 2);
 
-  const messages = [[{
+  const messages = [[], [{
     ruleId: "no-unused-vars",
     severity: 2,
     message: "'o' is defined but never used.",
@@ -42,7 +42,7 @@ foo
   }]];
 
   const mapped = processor.postprocess(messages, "processor.peggy");
-  assert.equal(mapped.length, messages[0].length);
+  assert.equal(mapped.length, messages[1].length);
 });
 
 test("fix", () => {
@@ -55,19 +55,16 @@ const FOO = "foo";
 const BASE = options.base || 10
 }
 
-bar
-  = first:pos  rest:("," @num)* { return [FOO, first, ...rest]; }
+bar = first:pos  rest:("," @num)* { return [FOO, first, ...rest]; }
 
-pos
-  = n:num !{ return n > 0; }
+pos = n:num !{ return n > 0; }
 
-num
-  = n:$[0-9]+ { return parseInt(n, BASE); }
+num = n:$[0-9]+ { return parseInt(n, BASE); }
 
 `, "fix.peggy");
-  assert.equal(res.length, 1);
+  assert.equal(res.length, 2);
 
-  const messages = [[
+  const messages = [[], [
     {
       ruleId: "semi",
       severity: 2,
@@ -83,5 +80,5 @@ num
   ]];
 
   const mapped = processor.postprocess(messages, "fix.peggy");
-  assert.equal(mapped.length, messages[0].length);
+  assert.equal(mapped.length, messages[1].length);
 });
