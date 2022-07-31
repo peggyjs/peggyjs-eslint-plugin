@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
-    "allowJs": true,                                /* Allow javascript files to be compiled. */
-    "checkJs": true,                                /* Report errors in .js files. */
-    "noEmit": true,
-    "declarationMap": false,                        /* Generates a sourcemap for each corresponding '.d.ts' file. */
-    "forceConsistentCasingInFileNames": true,       /* Disallow inconsistently-cased references to the same file. */
-    "module": "es2020",                             /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
-    "outDir": "./types/",                           /* Redirect output structure to the directory. */
-    "removeComments": false,                        /* Emit comments to output. */
-    "rootDir": "./lib",                             /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
-    "skipLibCheck": true,                           /* Skip type checking of declaration files. */
-    "sourceMap": false,                             /* Generates corresponding '.map' file. */
-    "strict": true,                                 /* Enable all strict type-checking options. */
-    "target": "es2020",                             /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    // "inlineSourceMap": true,
+    "module": "node16",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
     "noEmitOnError": true,
+    "noImplicitReturns": true,
+    "outDir": "./lib/",
+    "removeComments": false,
+    "rootDir": "./src",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2020",
   },
-  "include": ["./lib/index.js"]
+  "include": ["./src/**/*.ts"]
 }

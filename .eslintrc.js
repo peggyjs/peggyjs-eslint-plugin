@@ -2,7 +2,16 @@
 
 module.exports = {
   root: true,
-  extends: ["@peggyjs", "plugin:eslint-plugin/recommended"],
+  extends: [
+    "@peggyjs",
+    "@peggyjs/eslint-config/typescript",
+    "plugin:eslint-plugin/recommended",
+  ],
+  ignorePatterns: [
+    "coverage/",
+    "lib/", // Generated
+    "node_modules/",
+  ],
   parserOptions: {
     ecmaVersion: 2020,
   },

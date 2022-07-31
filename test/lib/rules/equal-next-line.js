@@ -1,6 +1,6 @@
 "use strict";
 
-const rule = require("../../../lib/rules/equal-next-line");
+const rule = require("../../../lib/rules/equal-next-line").default;
 const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester({
