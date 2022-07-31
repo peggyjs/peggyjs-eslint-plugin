@@ -2,7 +2,6 @@
   "name": "examples",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +9,6 @@
   "author": "Joe Hildebrand <joe-github@cursive.net>",
   "license": "MIT",
   "devDependencies": {
-    "eslint-plugin-peggy": "file:.."
+    "@peggyjs/eslint-plugin": "file:.."
   }
 }

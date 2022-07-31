@@ -1,8 +1,9 @@
 "use strict";
 
 module.exports = {
+  root: true,
   extends: [
-    "eslint:recommended",
-    "plugin:peggy/recommended",
+    "@peggyjs",
+    "plugin:@peggyjs/recommended",
   ],
 };
