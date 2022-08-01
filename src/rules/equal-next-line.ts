@@ -63,10 +63,11 @@ const rule: Rule.RuleModule = {
               }
             }
             break;
-          /* c8 ignore next */
+          /* c8 ignore start */
+          // Schema prevents unknown styles.
           default:
-            /* c8 ignore next */
             throw new Error(`Unknown style: '${style}'`);
+          /* c8 ignore stop */
         }
       },
     };

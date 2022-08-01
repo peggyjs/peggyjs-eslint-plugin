@@ -44,10 +44,18 @@ module.exports = {
 };
 ```
 
-## Features
+## Rules
+
+- ⭐️ - Recommended rules.
+- ✒️ - Fixable rules.
+
+| Rule ID | Description |    |
+|:--------|:------------|:--:|
+| [@peggyjs/equal-next-line](./docs/rules/equal-next-line.md) | Ensure that the equals sign in a rule is in a consistent location. | ⭐️ |
+
+## Other Features
 
 - Checks the Javascript code embedded in your grammar according to your existing ESlint rules for JS.
-- Rule docs will go here.
 
 ## Using with Visual Studio Code
 
