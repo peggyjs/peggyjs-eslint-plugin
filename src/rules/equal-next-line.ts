@@ -8,7 +8,7 @@ const rule: Rule.RuleModule = {
     docs: {
       description: "require rule equal signs to be on the next line from the rule name",
       recommended: true,
-      url: "TBD",
+      url: "https://github.com/peggyjs/peggyjs-eslint-plugin/blob/main/docs/rules/equal-next-line.md",
     },
     messages: {
       next: "Equal sign must be on next line from the rule name.",
