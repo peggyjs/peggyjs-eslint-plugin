@@ -1,4 +1,4 @@
-# eslint-plugin-peggy
+# @peggyjs/eslint-plugin
 
 An [eslint](https://eslint.org/) plugin to check [peggy](https://peggyjs.org)
 grammars.
@@ -52,6 +52,12 @@ module.exports = {
 | Rule ID | Description |    |
 |:--------|:------------|:--:|
 | [@peggyjs/equal-next-line](./docs/rules/equal-next-line.md) | Ensure that the equals sign in a rule is in a consistent location. | ⭐️ |
+| [@peggyjs/separate-choices](./docs/rules/separate-choices.md) | Ensure that each top-level choice in a rule is on a new line. | ⭐️ |
+
+## Settings
+
+There are several plugin-wide [settings](./docs/settings.md) that control
+whitespace insertion.
 
 ## Other Features
 

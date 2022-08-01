@@ -12,7 +12,7 @@ pos = n:num !{ return n > 0; }
 
 choice
   = "one"
-  / "two"
+  / ("two" / "three")
 
 num "Integer"
   = n:$[0-9]+ { return parseInt(n, BASE); }
