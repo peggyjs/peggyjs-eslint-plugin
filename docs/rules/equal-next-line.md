@@ -6,8 +6,8 @@
 
 The equals sign in all rules should be in a consistent location.  Some will
 prefer it always to be on the same line as the rule name, some will prefer it
-to be on the next line, and some would like it on the next line if and only if
-the rule's top level structure is a set of choices.
+to be on the next line, and some would like it on the next line if the rule's
+top level structure is a set of choices, or if the rule has a display name.
 
 :-1: Examples of **incorrect** code for this rule:
 
@@ -25,12 +25,14 @@ foo
 ```
 
 ```peg.js
-// eslint @peggyjs/equal-next-line: ["error", "choice"]
+// eslint @peggyjs/equal-next-line: ["error", "never", ["choice", "named"]]
 
 foo
   = fruits
 
 fruits = "apple" / "orange"
+
+display "This rule has a display name" = "pineapple"
 ```
 
 :+1: Examples of **correct** code for this rule:
@@ -49,23 +51,28 @@ foo = "bar"
 ```
 
 ```peg.js
-// eslint @peggyjs/equal-next-line: ["error", "choice"]
+// eslint @peggyjs/equal-next-line: ["error", "never", ["choice", "named"]]
 
 foo = fruits
 
 fruits
   = "apple"
   / "orange"
+
+display "This rule has a display name"
+  = "pineapple"
 ```
 
 ### Options
 
-The default style is "choice".  Other valid options are "always" and "never".
+The default style is "always".  If you select "never", you may have a second
+parameter with an array of exceptions.  Valid exceptions are "choice" and
+"named".
 
 ```json
 {
     "rules": {
-        "@peggyjs/equal-next-line": ["error", "choice"]
+        "@peggyjs/equal-next-line": ["error", "never", ["choice", "named"]]
     }
 }
 ```

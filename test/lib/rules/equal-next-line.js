@@ -2,6 +2,10 @@
 
 const rule = require("../../../lib/rules/equal-next-line").default;
 const RuleTester = require("eslint").RuleTester;
+const test = require("node:test");
+
+RuleTester.it = test.it;
+RuleTester.describe = test.describe;
 
 const ruleTester = new RuleTester({
   parser: require.resolve("@peggyjs/eslint-parser"),
@@ -10,7 +14,7 @@ const ruleTester = new RuleTester({
 ruleTester.run("equal-next-line", rule, {
   valid: [
     {
-      code: "foo = '1'",
+      code: "foo\n  = '1'",
       options: [],
     },
     {
@@ -23,35 +27,102 @@ ruleTester.run("equal-next-line", rule, {
     },
     {
       code: "foo\n  = '1'\n  / '2'",
-      options: ["choice"],
+      options: ["never", ["choice"]],
+    },
+    {
+      code: "foo 'Foo has a name'\n  = '1'",
+      options: ["never", ["named"]],
     },
   ],
 
   invalid: [
     {
-      code: "foo\n = '1'",
+      code: "foo      = '1'",
       options: [],
-      errors: [{ messageId: "same" }],
+      errors: [{ messageId: "next" }],
+      output: "foo\n  = '1'",
     },
     {
       code: "foo\n = '1'",
       options: ["never"],
       errors: [{ messageId: "same" }],
+      output: "foo = '1'",
     },
     {
       code: "foo = '1'",
       options: ["always"],
       errors: [{ messageId: "next" }],
+      output: "foo\n  = '1'",
     },
     {
       code: "foo\n = '1'",
-      options: ["choice"],
+      options: ["never", ["choice"]],
       errors: [{ messageId: "same" }],
+      output: "foo = '1'",
     },
     {
       code: "foo = '1' / '2'",
-      options: ["choice"],
+      options: ["never", ["choice"]],
       errors: [{ messageId: "next" }],
+      output: "foo\n  = '1' / '2'",
+    },
+    {
+      code: "foo\n\n  = '1' / '2'",
+      options: ["never", ["choice"]],
+      errors: [{ messageId: "next" }],
+      output: "foo\n  = '1' / '2'",
+    },
+    {
+      code: "foo 'Foo has a name' = '1'",
+      options: ["always"],
+      errors: [{ messageId: "next" }],
+      output: "foo 'Foo has a name'\n  = '1'",
+    },
+    {
+      code: "foo 'Foo has a name'\n  = '1'",
+      options: ["never"],
+      errors: [{ messageId: "same" }],
+      output: "foo 'Foo has a name' = '1'",
+    },
+    {
+      code: "foo 'Foo has a name' = '1'",
+      options: ["never", ["named"]],
+      errors: [{ messageId: "next" }],
+      output: "foo 'Foo has a name'\n  = '1'",
+    },
+    {
+      code: "foo  'Foo has a name'\n\n  = '1'",
+      options: ["never", ["named"]],
+      errors: [{ messageId: "next" }],
+      output: "foo  'Foo has a name'\n  = '1'",
+    },
+    {
+      code: "foo  'Foo has a name'\n\n  = '1'",
+      options: ["never", ["named"]],
+      errors: [{ messageId: "next" }],
+      settings: {
+        "@peggyjs/indent": "tab",
+        "@peggyjs/newline": "\r\n",
+      },
+      output: "foo  'Foo has a name'\r\n\t= '1'",
+    },
+    {
+      code: "foo  'Foo has a name'\n\n  = '1'",
+      options: ["never", ["named"]],
+      errors: [{ messageId: "next" }],
+      settings: {
+        "@peggyjs/indent": "   ",
+      },
+      output: "foo  'Foo has a name'\n   = '1'",
+    },
+    {
+      code: "foo  'Foo has a name'\n\n  = '1'",
+      options: ["never", ["named"]],
+      errors: [{ messageId: "next" }],
+      settings: {
+        "@peggyjs/indent": 3,
+      },
+      output: "foo  'Foo has a name'\n   = '1'",
     },
   ],
 });

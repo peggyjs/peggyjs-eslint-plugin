@@ -14,4 +14,5 @@ choice
   = "one"
   / "two"
 
-num = n:$[0-9]+ { return parseInt(n, BASE); }
+num "Integer"
+  = n:$[0-9]+ { return parseInt(n, BASE); }
