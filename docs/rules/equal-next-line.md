@@ -77,6 +77,10 @@ parameter with an array of exceptions.  Valid exceptions are "choice" and
 }
 ```
 
+## Whitespace insertion
+
+See [Settings](../settings.md).
+
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/equal-next-line.ts)
