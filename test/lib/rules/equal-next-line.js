@@ -10,7 +10,7 @@ const ruleTester = new RuleTester({
 ruleTester.run("equal-next-line", rule, {
   valid: [
     {
-      code: "foo = '1'",
+      code: "foo\n  = '1'",
       options: [],
     },
     {
@@ -23,15 +23,19 @@ ruleTester.run("equal-next-line", rule, {
     },
     {
       code: "foo\n  = '1'\n  / '2'",
-      options: ["choice"],
+      options: ["never", ["choice"]],
+    },
+    {
+      code: "foo 'Foo has a name'\n  = '1'",
+      options: ["never", ["named"]],
     },
   ],
 
   invalid: [
     {
-      code: "foo\n = '1'",
+      code: "foo = '1'",
       options: [],
-      errors: [{ messageId: "same" }],
+      errors: [{ messageId: "next" }],
     },
     {
       code: "foo\n = '1'",
@@ -45,12 +49,27 @@ ruleTester.run("equal-next-line", rule, {
     },
     {
       code: "foo\n = '1'",
-      options: ["choice"],
+      options: ["never", ["choice"]],
       errors: [{ messageId: "same" }],
     },
     {
       code: "foo = '1' / '2'",
-      options: ["choice"],
+      options: ["never", ["choice"]],
+      errors: [{ messageId: "next" }],
+    },
+    {
+      code: "foo\n\n  = '1' / '2'",
+      options: ["never", ["choice"]],
+      errors: [{ messageId: "next" }],
+    },
+    {
+      code: "foo 'Foo has a name' = '1'",
+      options: ["never", ["named"]],
+      errors: [{ messageId: "next" }],
+    },
+    {
+      code: "foo  'Foo has a name'\n\n  = '1'",
+      options: ["never", ["named"]],
       errors: [{ messageId: "next" }],
     },
   ],

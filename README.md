@@ -31,7 +31,7 @@ module.exports = {
       files: ["*.peggy", "*.pegjs"],
       parser: "@peggyjs/eslint-parser",
       rules: {
-        "@peggyjs/equal-next-line": ["error", "choice"],
+        "@peggyjs/equal-next-line": ["error", "never", ["choice", "named"]],
       },
     },
     {

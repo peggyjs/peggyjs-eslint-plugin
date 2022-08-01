@@ -17,15 +17,26 @@ const rule: Rule.RuleModule = {
     fixable: undefined,
     schema: [
       {
-        enum: ["always", "never", "choice"],
+        title: "style",
+        enum: ["always", "never"],
+      },
+      {
+        title: "exceptions",
+        type: "array",
+        items: {
+          type: "string",
+          enum: ["choice", "named"],
+        },
       },
     ],
   },
   create(context: Rule.RuleContext): Rule.RuleListener {
-    const style = context.options[0] || "choice";
+    const style = context.options[0] || "always";
+    const exceptions = context.options[1] || [];
+
     return {
       // @ts-expect-error Peggy AST isn't expected by eslint
-      "rule": (node: visitor.AST.Rule): void => {
+      rule(node: visitor.AST.Rule): void {
         const ruleLine = node.name.loc.start.line;
         const equalLine = node.equals.loc.start.line;
 
@@ -38,31 +49,31 @@ const rule: Rule.RuleModule = {
               });
             }
             break;
-          case "never":
-            if (ruleLine !== equalLine) {
+          case "never": {
+            let messageId: string | null = null;
+            if (ruleLine === equalLine) {
+              if (exceptions.includes(node.expression.type)) {
+                // These go on the next line but they're not
+                messageId = "next";
+              }
+            } else {
+              if (exceptions.includes(node.expression.type)) {
+                if (ruleLine !== equalLine - 1) {
+                  // There's probably an extra blank line
+                  messageId = "next";
+                }
+              } else {
+                messageId = "same";
+              }
+            }
+            if (messageId) {
               context.report({
                 node: node.equals as unknown as EStree.Node,
-                messageId: "same",
+                messageId,
               });
             }
             break;
-          case "choice":
-            if (node.expression.type === "choice") {
-              if (ruleLine !== equalLine - 1) {
-                context.report({
-                  node: node.equals as unknown as EStree.Node,
-                  messageId: "next",
-                });
-              }
-            } else {
-              if (ruleLine !== equalLine) {
-                context.report({
-                  node: node.equals as unknown as EStree.Node,
-                  messageId: "same",
-                });
-              }
-            }
-            break;
+          }
           /* c8 ignore start */
           // Schema prevents unknown styles.
           default:
