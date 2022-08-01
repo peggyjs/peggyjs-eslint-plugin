@@ -20,7 +20,7 @@ interface Fun {
   /**
    * Parameter locations.
    */
-  params: Parameters;
+  params?: Parameters;
   /**
    * Function code node.
    */
@@ -57,7 +57,7 @@ function findFunctions(root: visitor.AST.Program): Fun[] {
     "action:exit": (node, opts): undefined => {
       functions.push({
         predicate: false,
-        params: opts?.thisResult || {},
+        params: opts.thisResult,
         body: node.code,
       });
       return undefined;
@@ -65,7 +65,7 @@ function findFunctions(root: visitor.AST.Program): Fun[] {
     "semantic_and:exit": (node, opts): undefined => {
       functions.push({
         predicate: true,
-        params: opts?.thisResult || {},
+        params: opts.thisResult,
         body: node.code,
       });
       return undefined;
@@ -73,7 +73,7 @@ function findFunctions(root: visitor.AST.Program): Fun[] {
     "semantic_not:exit": (node, opts): undefined => {
       functions.push({
         predicate: true,
-        params: opts?.thisResult || {},
+        params: opts.thisResult,
         body: node.code,
       });
       return undefined;
@@ -151,7 +151,7 @@ function parse(input, options) {
           {
             source: code.loc.source || undefined,
             start: {
-              line: (code.loc.start.line || 0) + lineNum,
+              line: code.loc.start.line + lineNum,
               column: 1,
             },
             offset: code.range[0] + offset + 1,
@@ -167,6 +167,14 @@ function parse(input, options) {
   for (const fun of functions) {
     doc.add(`\n  function peg$f${count++}(`);
     let first = true;
+
+    // Not actually possible, just keeping TS happy.
+    /* c8 ignore start */
+    if (!fun.params) {
+      continue;
+    }
+    /* c8 ignore stop */
+
     for (const name of Object.values(fun.params)) {
       if (first) {
         first = false;
