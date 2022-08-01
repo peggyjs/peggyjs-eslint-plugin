@@ -8,14 +8,16 @@ grammars.
 Install with:
 
 ```bash
-npm install --save-dev eslint-plugin-peggy eslint
+npm install --save-dev peggyjs/peggyjs-eslint-plugin peggyjs/peggyjs-eslint-parser eslint
 ```
+
+(update this when we publish!)
 
 Add to your `.eslintrc.js` file:
 
 ```js
 module.exports = {
-  extends: ["plugin:peggy/recommended"],
+  extends: ["plugin:@peggyjs/recommended"],
 };
 ```
 
@@ -23,12 +25,13 @@ or if you'd like more control:
 
 ```js
 module.exports = {
-  plugins: ["peggy"],
+  plugins: ["@peggyjs"],
   overrides: [
     {
       files: ["*.peggy", "*.pegjs"],
+      parser: "@peggyjs/eslint-parser",
       rules: {
-
+        "@peggyjs/equal-next-line": ["error", "choice"],
       },
     },
     {
@@ -43,7 +46,8 @@ module.exports = {
 
 ## Features
 
-Right now, only checks the Javascript code embedded in your grammar.  More coming!
+- Checks the Javascript code embedded in your grammar according to your existing ESlint rules for JS.
+- Rule docs will go here.
 
 ## Using with Visual Studio Code
 

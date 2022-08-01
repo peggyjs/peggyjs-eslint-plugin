@@ -8,3 +8,4 @@ coverage/
 examples/
 test/
 tsconfig.json
+src/

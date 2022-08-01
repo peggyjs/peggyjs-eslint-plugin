@@ -39,6 +39,13 @@ foo
     messageId: "unusedVar",
     endLine: 31,
     endColumn: 23,
+  }, {
+    ruleId: "example",
+    severity: 2,
+    message: "No end in sight",
+    line: 31,
+    column: 22,
+    nodeType: "none",
   }]];
 
   const mapped = processor.postprocess(messages, "processor.peggy");
@@ -81,4 +88,14 @@ num = n:$[0-9]+ { return parseInt(n, BASE); }
 
   const mapped = processor.postprocess(messages, "fix.peggy");
   assert.equal(mapped.length, messages[1].length);
+});
+
+test("edges", () => {
+  const res = processor.preprocess(`
+{
+const ONE = "1";
+}
+foo = '1' { return ONE; }
+`, null);
+  assert(res);
 });
