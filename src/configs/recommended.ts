@@ -6,13 +6,13 @@ const config: ESlint.ESLint.ConfigData = {
     {
       files: ["**/*.peggy", "**/*.pegjs"],
       parser: "@peggyjs/eslint-parser",
-      rules: {
-        "@peggyjs/equal-next-line": ["error", "never", ["choice", "named"]],
-        "@peggyjs/separate-choices": "error",
-      },
       settings: {
         "@peggyjs/indent": 2,
         "@peggyjs/newline": "\n",
+      },
+      rules: {
+        "@peggyjs/equal-next-line": ["error", "never", ["choice", "named"]],
+        "@peggyjs/separate-choices": "error",
       },
     },
     {

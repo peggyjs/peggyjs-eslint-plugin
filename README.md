@@ -30,8 +30,13 @@ module.exports = {
     {
       files: ["*.peggy", "*.pegjs"],
       parser: "@peggyjs/eslint-parser",
+      settings: {
+        "@peggyjs/indent": 2,
+        "@peggyjs/newline": "\n",
+      }
       rules: {
         "@peggyjs/equal-next-line": ["error", "never", ["choice", "named"]],
+        "@peggyjs/separate-choices": "error",
       },
     },
     {
@@ -51,8 +56,8 @@ module.exports = {
 
 | Rule ID | Description |    |
 |:--------|:------------|:--:|
-| [@peggyjs/equal-next-line](./docs/rules/equal-next-line.md) | Ensure that the equals sign in a rule is in a consistent location. | ⭐️ |
-| [@peggyjs/separate-choices](./docs/rules/separate-choices.md) | Ensure that each top-level choice in a rule is on a new line. | ⭐️ |
+| [@peggyjs/equal-next-line](./docs/rules/equal-next-line.md) | Ensure that the equals sign in a rule is in a consistent location. | ✒️ ⭐️ |
+| [@peggyjs/separate-choices](./docs/rules/separate-choices.md) | Ensure that each top-level choice in a rule is on a new line. | ✒️ ⭐️ |
 
 ## Settings
 
