@@ -11,7 +11,7 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@peggyjs/eslint-parser"),
 });
 
-ruleTester.run("equal-next-line", rule, {
+ruleTester.run("separate-choices", rule, {
   valid: [
     {
       code: "foo\n  = '1'\n  / '2'",
