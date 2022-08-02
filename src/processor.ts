@@ -1,9 +1,12 @@
 import { parseForESLint, visitor } from "@peggyjs/eslint-parser";
 import type ESlint from "eslint";
 import SourceChain from "./sourcechain";
+import dbg from "debug";
 
 const sourceMaps: { [fileName: string]: SourceChain } = {};
 const RETAIN_NEWLINES = /(?<=(?:\r?\n))/g;
+
+const debug = dbg("eslintrc:@peggyjs/processor");
 
 interface Parameters {
   [name: string]: visitor.AST.Name;
@@ -110,8 +113,11 @@ export function preprocess(
 "use strict";
 `);
 
-  if (ast.body.topLevelInitializer) {
-    doc.add(ast.body.topLevelInitializer.code);
+  const TLI = ast.body.topLevelInitializer;
+  if (TLI) {
+    if (TLI.code.value.replace(/\r?\n/g, "").trim()) {
+      doc.add(TLI.code);
+    }
   }
 
   // Environment that grammar JS is expecting, then use everything to avoid
@@ -165,6 +171,10 @@ function parse(input, options) {
 
   let count = 0;
   for (const fun of functions) {
+    if (fun.body.value.replace(/\r?\n/g, "").trim() === "") {
+      // Catch this with no-empty-actions.
+      continue;
+    }
     doc.add(`\n  function peg$f${count++}(`);
     let first = true;
 
@@ -202,10 +212,13 @@ function parse(input, options) {
 parse("", {});
 `);
 
+  const docText = doc.toString();
+  debug(docText);
+
   sourceMaps[filename] = doc;
   return [
     { text, filename },
-    { text: doc.toString(), filename: `${filename}/0.js` },
+    { text: docText, filename: `${filename}/0.js` },
   ];
 }
 

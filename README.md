@@ -36,12 +36,14 @@ module.exports = {
       }
       rules: {
         "@peggyjs/equal-next-line": ["error", "never", ["choice", "named"]],
-        "@peggyjs/separate-choices": "error",
+        ...
       },
     },
     {
       files: ["**/*.peggy/*.js", "**/*.pegjs/*.js"],
       rules: {
+        // Even if you normally want BOMs (which you shouldn't.  Always use
+        // UTF-8.), you're not getting one this time.
         "unicode-bom": "off",
       },
     },
@@ -51,12 +53,14 @@ module.exports = {
 
 ## Rules
 
-- ⭐️ - Recommended rules.
 - ✒️ - Fixable rules.
+- ⭐️ - Recommended rules.
 
 | Rule ID | Description |    |
 |:--------|:------------|:--:|
 | [@peggyjs/equal-next-line](./docs/rules/equal-next-line.md) | Ensure that the equals sign in a rule is in a consistent location. | ✒️ ⭐️ |
+| [@peggyjs/no-empty-actions](./docs/rules/no-empty-actions.md) | Actions should not be empty | ✒️ ⭐️ |
+| [@peggyjs/no-empty-initializers](./docs/rules/no-empty-initializers.md) | Top-level and per-instance initializers should not be empty. | ✒️ ⭐️ |
 | [@peggyjs/separate-choices](./docs/rules/separate-choices.md) | Ensure that each top-level choice in a rule is on a new line. | ✒️ ⭐️ |
 
 ## Settings
