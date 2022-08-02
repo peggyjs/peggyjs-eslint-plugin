@@ -26,10 +26,10 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm install && cd examples && npm install
+      - name: Test
+        run: npm run coverage
       - name: Check coding standards
         if: matrix.node-version == '18.x' && matrix.os == 'ubuntu-latest'
         run: npm run lint
-      - name: Test
-        run: npm run coverage
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
