@@ -12,7 +12,7 @@ function checkEmpty(
       node: enode,
       messageId: "empty",
       fix(fixer: Rule.RuleFixer): Rule.Fix {
-        return fixer.replaceText(enode, "");
+        return fixer.remove(enode);
       },
     });
   }

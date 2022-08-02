@@ -51,10 +51,6 @@ function loc(obj) {
 foo = "1" { return loc({ type: "foo" }); }
 ```
 
-## Whitespace insertion
-
-See [Settings](../settings.md).
-
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/no-empty-initializers.ts)

@@ -12,6 +12,7 @@ const config: ESlint.ESLint.ConfigData = {
       },
       rules: {
         "@peggyjs/equal-next-line": ["error", "never", ["choice", "named"]],
+        "@peggyjs/no-empty-actions": "error",
         "@peggyjs/no-empty-initializers": "error",
         "@peggyjs/separate-choices": "error",
       },

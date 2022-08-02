@@ -59,6 +59,7 @@ module.exports = {
 | Rule ID | Description |    |
 |:--------|:------------|:--:|
 | [@peggyjs/equal-next-line](./docs/rules/equal-next-line.md) | Ensure that the equals sign in a rule is in a consistent location. | ✒️ ⭐️ |
+| [@peggyjs/no-empty-actions](./docs/rules/no-empty-actions.md) | Actions should not be empty | ✒️ ⭐️ |
 | [@peggyjs/no-empty-initializers](./docs/rules/no-empty-initializers.md) | Top-level and per-instance initializers should not be empty. | ✒️ ⭐️ |
 | [@peggyjs/separate-choices](./docs/rules/separate-choices.md) | Ensure that each top-level choice in a rule is on a new line. | ✒️ ⭐️ |
 
