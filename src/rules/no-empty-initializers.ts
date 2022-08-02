@@ -29,7 +29,7 @@ const rule: Rule.RuleModule = {
     messages: {
       empty: "Initializer must not be empty.",
     },
-    fixable: "whitespace",
+    fixable: "code",
     schema: [],
   },
   create(context: Rule.RuleContext): Rule.RuleListener {

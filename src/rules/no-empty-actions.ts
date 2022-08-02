@@ -8,12 +8,12 @@ const rule: Rule.RuleModule = {
     docs: {
       description: "action code blocks should not be empty if they are provided",
       recommended: true,
-      url: "https://github.com/peggyjs/peggyjs-eslint-plugin/blob/main/docs/rules/no-empty-initializers.md",
+      url: "https://github.com/peggyjs/peggyjs-eslint-plugin/blob/main/docs/rules/no-empty-actions.md",
     },
     messages: {
       empty: "Action must not be empty.",
     },
-    fixable: "whitespace",
+    fixable: "code",
     schema: [],
   },
   create(context: Rule.RuleContext): Rule.RuleListener {
