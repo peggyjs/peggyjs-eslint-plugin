@@ -11,10 +11,11 @@ function baz() {
 }
 }
 
-bar = first:pos  rest:("," @num)* { return [FOO, first, baz(), ...rest]; }
+bar = first:pos rest:("," @num)* { return [FOO, first, baz(), ...rest]; }
 
 pos = n:num !{ return n > 0; }
 
+// eslint-disable-next-line @peggyjs/no-unused-rules
 choice
   = "one"
   / ("two" / "three")
