@@ -4,9 +4,14 @@ const FOO = "foo";
 
 {
 const BASE = options.base || 10;
+
+// A comment after a blank line
+function baz() {
+  return 3;
+}
 }
 
-bar = first:pos  rest:("," @num)* { return [FOO, first, ...rest]; }
+bar = first:pos  rest:("," @num)* { return [FOO, first, baz(), ...rest]; }
 
 pos = n:num !{ return n > 0; }
 
