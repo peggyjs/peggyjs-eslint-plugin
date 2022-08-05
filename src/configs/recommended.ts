@@ -16,6 +16,7 @@ const config: ESlint.ESLint.ConfigData = {
         "@peggyjs/no-empty-actions": "error",
         "@peggyjs/no-empty-initializers": "error",
         "@peggyjs/no-unused-rules": "error",
+        "@peggyjs/quotes": ["error", "double", { avoidEscape: true }],
         "@peggyjs/semantic-predicate-must-return": "error",
         "@peggyjs/separate-choices": "error",
       },

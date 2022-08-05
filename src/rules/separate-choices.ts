@@ -1,6 +1,6 @@
-import type EStree from "estree";
 import type { Rule } from "eslint";
 import { Settings } from "../settings";
+import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 const rule: Rule.RuleModule = {
@@ -37,7 +37,7 @@ const rule: Rule.RuleModule = {
             if (choice.loc.start.line === prevLine) {
               const start = prevEnd; // Capture in case multiple
               context.report({
-                node: choice as unknown as EStree.Node,
+                node: n(choice),
                 messageId: "next",
                 fix(fixer: Rule.RuleFixer): Rule.Fix {
                   return fixer.replaceTextRange(

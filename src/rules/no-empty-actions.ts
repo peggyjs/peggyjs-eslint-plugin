@@ -1,5 +1,5 @@
-import type EStree from "estree";
 import type { Rule } from "eslint";
+import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 const rule: Rule.RuleModule = {
@@ -22,7 +22,7 @@ const rule: Rule.RuleModule = {
       action(node: visitor.AST.ActionExpression): void {
         if (node.code.value.replace(/\r?\n/g, "").trim() === "") {
           context.report({
-            node: node.code as unknown as EStree.Node,
+            node: n(node.code),
             messageId: "empty",
             fix(fixer: Rule.RuleFixer): Rule.Fix {
               return fixer.removeRange(

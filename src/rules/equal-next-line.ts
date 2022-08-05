@@ -1,6 +1,6 @@
-import type EStree from "estree";
 import type { Rule } from "eslint";
 import { Settings } from "../settings";
+import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 function fixEquals(
@@ -73,15 +73,16 @@ const rule: Rule.RuleModule = {
         const equalLine = node.equals.loc.start.line;
 
         switch (style) {
-          case "always":
+          case "always": {
             if (ruleLine !== equalLine - 1) {
               context.report({
-                node: node.equals as unknown as EStree.Node,
+                node: n(node.equals),
                 messageId: "next",
                 fix: fixEquals(node, indent, newline),
               });
             }
             break;
+          }
           case "never": {
             let messageId: string | undefined = undefined;
             let fix: Rule.ReportFixer | null = null;
@@ -106,7 +107,7 @@ const rule: Rule.RuleModule = {
             }
             if (messageId) {
               context.report({
-                node: node.equals as unknown as EStree.Node,
+                node: n(node.equals),
                 messageId,
                 fix,
               });

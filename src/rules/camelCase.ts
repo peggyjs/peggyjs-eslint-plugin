@@ -1,5 +1,5 @@
-import type EStree from "estree";
 import type { Rule } from "eslint";
+import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 function isUnderscored(name: string): boolean {
@@ -34,14 +34,8 @@ function getFixes(
   }
   const fixes = refs
     .filter(ref => ref.name.value === node.name.value)
-    .map(ref => fixer.replaceText(
-      ref.name as unknown as EStree.Node,
-      good
-    ));
-  fixes.unshift(fixer.replaceText(
-    node.name as unknown as EStree.Node,
-    good
-  ));
+    .map(ref => fixer.replaceText(n(ref.name), good));
+  fixes.unshift(fixer.replaceText(n(node.name), good));
   return fixes;
 }
 
@@ -81,7 +75,7 @@ const rule: Rule.RuleModule = {
           // No fixes for these, since it would require a JS AST.
           if (isUnderscored(name)) {
             context.report({
-              node: node.name as unknown as EStree.Node,
+              node: n(node.name),
               messageId: "notCamelCase",
               data: { name },
             });
@@ -89,7 +83,7 @@ const rule: Rule.RuleModule = {
           const first = name[0];
           if (first !== first.toLocaleLowerCase()) {
             context.report({
-              node: node.name as unknown as EStree.Node,
+              node: n(node.name),
               messageId: "initialCap",
               data: { name },
             });
@@ -101,7 +95,7 @@ const rule: Rule.RuleModule = {
           const name = node.name.value;
           if (isUnderscored(name)) {
             context.report({
-              node: node.name as unknown as EStree.Node,
+              node: n(node.name),
               messageId: "notCamelCase",
               data: { name },
               fix(fixer: Rule.RuleFixer): Rule.Fix[] {
@@ -113,7 +107,7 @@ const rule: Rule.RuleModule = {
             const first = name[0];
             if (first !== first.toUpperCase()) {
               context.report({
-                node: node.name as unknown as EStree.Node,
+                node: n(node.name),
                 messageId: "notInitialCap",
                 data: { name },
                 fix(fixer: Rule.RuleFixer): Rule.Fix[] {
