@@ -3,10 +3,9 @@ import type ESlint from "eslint";
 import SourceChain from "./sourcechain";
 import dbg from "debug";
 
-const sourceMaps: { [fileName: string]: SourceChain } = {};
-const RETAIN_NEWLINES = /(?<=(?:\r?\n))/g;
-
 const debug = dbg("eslintrc:@peggyjs/processor");
+const sourceMaps = new Map<string, SourceChain>();
+const RETAIN_NEWLINES = /(?<=(?:\r?\n))/g;
 
 interface Parameters {
   [name: string]: visitor.AST.Name;
@@ -150,21 +149,25 @@ function parse(input, options) {
     let offset = 0;
     const code = ast.body.initializer.code;
     for (const line of code.value.split(RETAIN_NEWLINES)) {
-      if (line.match(/^[^\r\n]+\r?\n/)) { // Non-empty
+      if (line.match(/^[^\r\n]+\r?\n/)) {
+        // Indent non-empty lines.
+        // If we wanted code in initializers to be indented in Peggy files,
+        // we could remove all this complexity, but we'd have to outdent
+        // top-level initializers.
         doc.add("  ");
-        doc.add(
-          line,
-          {
-            source: code.loc.source || undefined,
-            start: {
-              line: code.loc.start.line + lineNum,
-              column: 1,
-            },
-            offset: code.range[0] + offset + 1,
-          }
-        );
-        offset += line.length;
       }
+      doc.add(
+        line,
+        {
+          source: code.loc.source || undefined,
+          start: {
+            line: code.loc.start.line + lineNum,
+            column: 0,
+          },
+          offset: code.range[0] + offset + 1,
+        }
+      );
+      offset += line.length;
       lineNum++;
     }
   }
@@ -189,13 +192,16 @@ function parse(input, options) {
       if (first) {
         first = false;
       } else {
-        doc.add(", ");
+        doc.add(",");
       }
+      doc.add("\n    ");
       doc.add(name);
     }
-    doc.add(") {");
+    doc.add("\n  ) ");
+    doc.add(fun.body.open);
     doc.add(fun.body);
-    doc.add("}\n");
+    doc.add(fun.body.close);
+    doc.add("\n");
   }
 
   // Make sure all actions are used, js-wise
@@ -213,9 +219,12 @@ parse("", {});
 `);
 
   const docText = doc.toString();
-  debug(docText);
 
-  sourceMaps[filename] = doc;
+  // When needed:
+  // debug(docText);
+  // require("fs").writeFileSync(`${filename}-0.js`, docText);
+
+  sourceMaps.set(filename, doc);
   return [
     { text, filename },
     { text: docText, filename: `${filename}/0.js` },
@@ -232,31 +241,44 @@ export function postprocess(
   messages: ESlint.Linter.LintMessage[][],
   filename: string
 ): ESlint.Linter.LintMessage[] {
-  const map = sourceMaps[filename];
-  // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-  delete sourceMaps[filename];
+  const map = sourceMaps.get(filename);
+  if (!map) {
+    throw new Error(`Map not found for "${filename}"`);
+  }
+  sourceMaps.delete(filename);
 
   return [
     ...messages[0],
     ...messages[1].map(msg => {
-      const start = map.originalLocation(msg);
+      debug("Before: %o", msg);
+      const start = map.originalLocation({
+        line: msg.line,
+        column: msg.column - 1, // Map is 0-based cols
+      });
       if (start) {
         msg.line = start.line;
-        msg.column = start.column;
+        msg.column = start.column + 1; // Message is 1-based cols
+      } else {
+        msg.line = 1;
+        msg.column = 1;
+        debug("Cound't find start location column: %d line %d", msg.line, msg.column);
       }
 
       const end
         = (typeof msg.endLine === "number") && (typeof msg.endColumn === "number")
           ? map.originalLocation({
             line: msg.endLine,
-            column: msg.endColumn - 1, // Take one off, so we don't go past the end
+            column: msg.endColumn - 1,  // Map is 0-based cols
           })
           : null;
       if (end) {
         msg.endLine = end.line;
-        msg.endColumn = end.column + 1; // Then add it back
+        msg.endColumn = end.column + 1; // Message is 1-based cols
+      } else {
+        debug("Cound't find end location column: %d line %d", msg.endLine, msg.endColumn);
+        msg.endLine = undefined;
+        msg.endColumn = undefined;
       }
-
       if (msg.fix) {
         msg.fix.range = [
           // Yes, I would have used map, but Typescript.
@@ -264,6 +286,7 @@ export function postprocess(
           map.originalOffset(msg.fix.range[1]),
         ];
       }
+      debug("After: %o", msg);
       return msg;
     }),
   ];

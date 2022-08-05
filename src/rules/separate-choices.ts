@@ -34,7 +34,7 @@ const rule: Rule.RuleModule = {
           let prevEnd = node.equals.range[1];
 
           for (const choice of expr.alternatives) {
-            if (choice.loc.start.line !== prevLine + 1) {
+            if (choice.loc.start.line === prevLine) {
               const start = prevEnd; // Capture in case multiple
               context.report({
                 node: choice as unknown as EStree.Node,

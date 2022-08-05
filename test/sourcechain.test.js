@@ -38,10 +38,7 @@ test("sourced string", () => {
     { line: 9, column: 2 } // Newline erases column info from first line
   );
   assert.equal(sc.originalOffset(9), 42); // The "a" in "baz"
-  assert.throws(
-    () => sc.originalLocation({ line: 9, column: 2 }),
-    /Invalid location/
-  );
+  assert.equal(sc.originalLocation({ line: 9, column: 2 }), null);
   assert.throws(
     () => sc.originalOffset(400),
     /Invalid offset/
@@ -54,7 +51,10 @@ test("incomplete blocks", () => {
   sc.add("  ");
   sc.add("bar", { start: { line: 8, column: 7 }, offset: 67 });
   assert.equal(sc.toString(), "fot\n  bar");
-  assert.equal(sc.originalLocation({ line: 2, column: 1 }), null);
+  assert.deepEqual(sc.originalLocation({ line: 2, column: 1 }), {
+    line: 8,
+    column: 7,
+  });
   assert.equal(sc.originalOffset(4), NaN);
   assert.deepEqual(sc.originalLocation({ line: 2, column: 3 }), { // The "a"
     line: 8,
@@ -73,7 +73,7 @@ test("incomplete blocks", () => {
 test("bad inputs", () => {
   const sc = new SourceChain();
   assert.equal(sc.originalLocation(null), null);
-  assert.throws(() => sc.originalLocation({}), /Invalid location:/);
+  assert.equal(sc.originalLocation({}), null);
 });
 
 test("Node inputs", () => {
@@ -100,4 +100,26 @@ test("Node inputs", () => {
     tail: 0,
     text: "foo\n",
   });
+});
+
+test("find the off-by-ones", () => {
+  // Let's see if we can find the issues.
+
+  // Start with the null case:
+  const sc = new SourceChain();
+  sc.add("foo\n", { start: { line: 6, column: 1 }, offset: 51 });
+  sc.add("  ");
+  sc.add("bar\n", { start: { line: 13, column: 5 }, offset: 23 });
+  assert.deepEqual(
+    sc.originalLocation({ line: 1, column: 0 }),
+    { line: 6, column: 1 }
+  );
+  assert.deepEqual(
+    sc.originalLocation({ line: 2, column: 0 }),
+    { line: 7, column: 0 }
+  );
+  assert.deepEqual(
+    sc.originalLocation({ line: 2, column: 2 }),
+    { line: 13, column: 5 }
+  );
 });

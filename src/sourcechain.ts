@@ -3,8 +3,10 @@
 // enhancement, if we find that it's needed.
 
 import type EStree from "estree";
+import dbg from "debug";
 import { visitor } from "@peggyjs/eslint-parser";
 
+const debug = dbg("eslintrc:@peggyjs/sourcechain");
 const NEWLINES = /\r?\n/g;
 
 // All lines start at 1.
@@ -52,11 +54,11 @@ class Block {
   }
 
   public get line(): number {
-    return this.loc?.start?.line || NaN;
+    return this.loc?.start?.line ?? NaN;
   }
 
   public get column(): number {
-    return this.loc?.start?.column || NaN;
+    return this.loc?.start?.column ?? NaN;
   }
 }
 
@@ -115,7 +117,12 @@ export default class SourceChain {
     }
     let line = 1;
     let col = 0;
+    let flow = false;
+    let prev: Block | null = null;
+
+    debug("Looking for: %o", loc);
     for (const block of this.blocks) {
+      debug("%d:%d Block: %o", line, col, block);
       const nextLine = line + block.count;
       if (block.tail ? loc.line <= nextLine : loc.line < nextLine) {
         // Found the right block, unless it's incomplete and we're past the
@@ -129,9 +136,22 @@ export default class SourceChain {
         } else {
           // Now we're sure we've got the right block
           if (!block.loc) {
-            return null;
-          }
+            // But it's in the generated section.
+            // Maybe we're just past the end of the previous block?
+            if (prev?.loc && !prev.tail && (loc.column === 0)) {
+              return {
+                line: prev.line + prev.count,
+                column: 0,
+              };
+            }
 
+            // Find the next non-generated section.
+            flow = true;
+            continue;
+          }
+          if (flow) {
+            col = loc.column;
+          }
           const ret = {
             line: block.line + lineOffset,
             column: lineOffset
@@ -142,8 +162,9 @@ export default class SourceChain {
         }
       }
       line = nextLine;
+      prev = block;
     }
-    throw new Error(`Invalid location: ${JSON.stringify(loc)}`);
+    return null;
   }
 
   /**

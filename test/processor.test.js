@@ -7,8 +7,7 @@ const processor = require("../lib/processor");
 test("processor", () => {
   const res = processor.preprocess(`
 {{
-const ONE = Symbol("one");
-}}
+const ONE = Symbol("one")}}
 {
 const NUM_T = options.numT ?? 2;
 }
@@ -20,6 +19,14 @@ foo
   assert.equal(res.length, 2);
 
   const messages = [[], [{
+    ruleId: "semi",
+    severity: 2,
+    message: "Semicolon required",
+    line: 300,
+    column: 26,
+    endLine: 4,
+    endColumn: 1,
+  }, {
     ruleId: "no-unused-vars",
     severity: 2,
     message: "'o' is defined but never used.",
@@ -50,6 +57,8 @@ foo
 
   const mapped = processor.postprocess(messages, "processor.peggy");
   assert.equal(mapped.length, messages[1].length);
+
+  assert.throws(() => processor.postprocess(messages, "NOT_VALID"), /Map not found/);
 });
 
 test("fix", () => {
@@ -91,11 +100,16 @@ num = n:$[0-9]+ { return parseInt(n, BASE); }
 });
 
 test("edges", () => {
-  const res = processor.preprocess(`
+  const res1 = processor.preprocess(`
 {
 const ONE = "1";
 }
 foo = '1' { return ONE; }
 `, null);
-  assert(res);
+  assert(res1);
+
+  const res2 = processor.preprocess(`
+foo = '1' {  }
+`, null);
+  assert(res2);
 });
