@@ -1,3 +1,4 @@
+import CamelCase from "./camelCase";
 import type ESlint from "eslint";
 import EqualNextLine from "./equal-next-line";
 import NoEmptyActions from "./no-empty-actions";
@@ -7,6 +8,7 @@ import SemanticPredicateMustReturn from "./semantic-predicate-must-return";
 import SeparateChoices from "./separate-choices";
 
 export const rules: { [name: string]: ESlint.Rule.RuleModule } = {
+  "camelCase": CamelCase,
   "equal-next-line": EqualNextLine,
   "no-empty-actions": NoEmptyActions,
   "no-empty-initializers": NoEmptyInitializers,
