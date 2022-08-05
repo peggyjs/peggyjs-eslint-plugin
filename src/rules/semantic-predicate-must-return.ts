@@ -1,5 +1,5 @@
-import type EStree from "estree";
 import type { Rule } from "eslint";
+import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 function checkForReturn(
@@ -11,7 +11,7 @@ function checkForReturn(
   // is my consistently doing `!{ n === 1 }` without the return.
   if (!/return/.test(node.code.value)) {
     context.report({
-      node: node.code as unknown as EStree.Node,
+      node: n(node.code),
       messageId: "mustReturn",
     });
   }

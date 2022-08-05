@@ -1,5 +1,5 @@
-import type EStree from "estree";
 import type { Rule } from "eslint";
+import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 const rule: Rule.RuleModule = {
@@ -36,9 +36,8 @@ const rule: Rule.RuleModule = {
           rules.delete(name);
         }
         for (const [name, r] of rules) {
-          const node = r as unknown as EStree.Node;
           context.report({
-            node,
+            node: n(r),
             messageId: "unused",
             data: {
               name,

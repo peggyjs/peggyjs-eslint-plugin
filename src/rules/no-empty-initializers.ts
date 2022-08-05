@@ -1,12 +1,12 @@
-import type EStree from "estree";
 import type { Rule } from "eslint";
+import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 function checkEmpty(
   context: Rule.RuleContext,
   node: visitor.AST.Initializer | visitor.AST.TopLevelInitializer
 ): void {
-  const enode = node as unknown as EStree.Node;
+  const enode = n(node);
   if (node.code.value.replace(/\r?\n/g, "").trim() === "") {
     context.report({
       node: enode,
