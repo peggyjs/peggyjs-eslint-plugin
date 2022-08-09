@@ -7,6 +7,7 @@ import NoUnusedRules from "./no-unused-rules";
 import Quotes from "./quotes";
 import SemanticPredicateMustReturn from "./semantic-predicate-must-return";
 import SeparateChoices from "./separate-choices";
+import SpaceOps from "./space-ops";
 
 export const rules: { [name: string]: ESlint.Rule.RuleModule } = {
   "camelCase": CamelCase,
@@ -17,4 +18,5 @@ export const rules: { [name: string]: ESlint.Rule.RuleModule } = {
   "quotes": Quotes,
   "semantic-predicate-must-return": SemanticPredicateMustReturn,
   "separate-choices": SeparateChoices,
+  "space-ops": SpaceOps,
 };

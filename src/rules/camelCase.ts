@@ -1,5 +1,5 @@
+import { makeListener, n } from "../utils";
 import type { Rule } from "eslint";
-import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 function isUnderscored(name: string): boolean {
@@ -59,16 +59,13 @@ const rule: Rule.RuleModule = {
     const refs: visitor.AST.RuleReferenceExpression[] = [];
     const rules: visitor.AST.Rule[] = [];
 
-    return {
-      // @ts-expect-error Peggy AST isn't expected by eslint
+    return makeListener({
       rule(node: visitor.AST.Rule): void {
         rules.push(node);
       },
-      // @ts-expect-error Peggy AST isn't expected by eslint
       rule_ref(node: visitor.AST.RuleReferenceExpression): void {
         refs.push(node);
       },
-      // @ts-expect-error Peggy AST isn't expected by eslint
       labeled(node: visitor.AST.LabeledExpression): void {
         const name = node.name?.value;
         if (name) {
@@ -118,7 +115,7 @@ const rule: Rule.RuleModule = {
           }
         }
       },
-    };
+    });
   },
 };
 

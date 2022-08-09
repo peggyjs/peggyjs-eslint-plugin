@@ -1,5 +1,5 @@
+import { makeListener, n } from "../utils";
 import type { Rule } from "eslint";
-import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 const rule: Rule.RuleModule = {
@@ -17,8 +17,7 @@ const rule: Rule.RuleModule = {
     schema: [],
   },
   create(context: Rule.RuleContext): Rule.RuleListener {
-    return {
-      // @ts-expect-error Peggy AST isn't expected by eslint
+    return makeListener({
       action(node: visitor.AST.ActionExpression): void {
         if (node.code.value.replace(/\r?\n/g, "").trim() === "") {
           context.report({
@@ -38,7 +37,7 @@ const rule: Rule.RuleModule = {
           });
         }
       },
-    };
+    });
   },
 };
 

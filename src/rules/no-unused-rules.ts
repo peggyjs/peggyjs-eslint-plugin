@@ -1,5 +1,5 @@
+import { makeListener, n } from "../utils";
 import type { Rule } from "eslint";
-import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 const rule: Rule.RuleModule = {
@@ -18,8 +18,7 @@ const rule: Rule.RuleModule = {
   create(context: Rule.RuleContext): Rule.RuleListener {
     const rules = new Map<string, visitor.AST.Rule>();
     const refs = new Set<string>();
-    return {
-      // @ts-expect-error Peggy AST isn't expected by eslint
+    return makeListener({
       rule(node: visitor.AST.Rule): void {
         if (rules.size === 0) {
           // Default start rule counts as a reference.
@@ -27,7 +26,6 @@ const rule: Rule.RuleModule = {
         }
         rules.set(node.name.value, node);
       },
-      // @ts-expect-error Peggy AST isn't expected by eslint
       rule_ref(node: visitor.AST.RuleReferenceExpression): void {
         refs.add(node.name.value);
       },
@@ -45,7 +43,7 @@ const rule: Rule.RuleModule = {
           });
         }
       },
-    };
+    });
   },
 };
 

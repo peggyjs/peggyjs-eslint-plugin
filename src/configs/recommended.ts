@@ -19,6 +19,7 @@ const config: ESlint.ESLint.ConfigData = {
         "@peggyjs/quotes": ["error", "double", { avoidEscape: true }],
         "@peggyjs/semantic-predicate-must-return": "error",
         "@peggyjs/separate-choices": "error",
+        "@peggyjs/space-ops": "error",
       },
     },
     {
