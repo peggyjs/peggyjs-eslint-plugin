@@ -60,14 +60,14 @@ const rule: Rule.RuleModule = {
       type: "object",
       properties: {
         beforeSlash: {
-          type: "boolean",
+          type: "number",
         },
       },
       additionalProperties: false,
     }],
   },
   create(context: Rule.RuleContext): Rule.RuleListener {
-    const beforeSlash = Boolean(context.options[0]?.beforeSlash);
+    const beforeSlash = Number(context.options[0]?.beforeSlash ?? -1);
 
     return makeListener({
       rule(node: visitor.AST.Rule): void {
@@ -106,7 +106,7 @@ const rule: Rule.RuleModule = {
         node.slashes.forEach((slash, i) => {
           check(context, slash, node.alternatives[i + 1], 1);
           if (!ruleDirect) {
-            check(context, node.alternatives[i], slash, beforeSlash ? 1 : -1);
+            check(context, node.alternatives[i], slash, beforeSlash);
           }
         });
       },

@@ -20,7 +20,7 @@ const FOO = 1
 }}
 
 foo = "1" { return FOO; }
-`
+`,
     },
     {
       code: `
@@ -32,8 +32,8 @@ function loc(obj) {
 }
 
 foo = "1" { return loc({ type: "foo" }); }
-`
-    }
+`,
+    },
   ],
   invalid: [
     {
@@ -45,6 +45,6 @@ foo = "1" { return loc({ type: "foo" }); }
       code: "{  \n}\n\nfoo = '1'",
       errors: [{ messageId: "empty" }],
       output: "\nfoo = '1'",
-    }
+    },
   ],
 });

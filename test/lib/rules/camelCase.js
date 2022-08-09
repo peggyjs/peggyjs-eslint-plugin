@@ -47,16 +47,22 @@ ruleTester.run("camelCase", rule, {
       output: "Bar = _FooBar_\n_FooBar_ = '1'",
     },
     {
+      // Don't change to existing identifier
       code: "Bar = foo_bar\nfoo_bar = '1'\nFooBar = '2'",
       errors: [{ messageId: "notCamelCase" }],
+      output: null,
     },
     {
+      // Can't fix labels
       code: "Bar = foo_bar:'1'",
       errors: [{ messageId: "notCamelCase" }],
+      output: null,
     },
     {
+      // Can't fix labels
       code: "Bar = Foo:'1'",
       errors: [{ messageId: "initialCap" }],
+      output: null,
     },
   ],
 });

@@ -8,9 +8,9 @@ module.exports = {
     "plugin:eslint-plugin/recommended",
   ],
   ignorePatterns: [
-    "coverage/",
-    "lib/", // Generated
-    "node_modules/",
+    "/coverage/",
+    "/lib/", // Generated
+    "/node_modules/",
   ],
   parserOptions: {
     ecmaVersion: 2020,
