@@ -1,22 +1,16 @@
-import CamelCase from "./camelCase";
 import type ESlint from "eslint";
-import EqualNextLine from "./equal-next-line";
-import NoEmptyActions from "./no-empty-actions";
-import NoEmptyInitializers from "./no-empty-initializers";
-import NoUnusedRules from "./no-unused-rules";
-import Quotes from "./quotes";
-import SemanticPredicateMustReturn from "./semantic-predicate-must-return";
-import SeparateChoices from "./separate-choices";
-import SpaceOps from "./space-ops";
+import fs from "fs";
+import path from "path";
 
-export const rules: { [name: string]: ESlint.Rule.RuleModule } = {
-  "camelCase": CamelCase,
-  "equal-next-line": EqualNextLine,
-  "no-empty-actions": NoEmptyActions,
-  "no-empty-initializers": NoEmptyInitializers,
-  "no-unused-rules": NoUnusedRules,
-  "quotes": Quotes,
-  "semantic-predicate-must-return": SemanticPredicateMustReturn,
-  "separate-choices": SeparateChoices,
-  "space-ops": SpaceOps,
-};
+export const rules: { [name: string]: ESlint.Rule.RuleModule }
+  = Object.fromEntries(
+    fs
+      .readdirSync(__dirname)
+      .filter(fileName => fileName.endsWith(".js") && !fileName.startsWith("."))
+      .map(fileName => fileName.replace(/\.js$/, ""))
+      .map(ruleName => [
+        ruleName,
+        // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+        require(path.join(__dirname, ruleName)).default,
+      ])
+  );

@@ -23,6 +23,9 @@ ruleTester.run("space-ops", rule, {
       code: "foo /* With comment */ \n  = '3'",
     },
     {
+      code: "foo = /* With comment */ '3'",
+    },
+    {
       code: "foo 'With display name' = '4'",
     },
     {
@@ -35,30 +38,39 @@ ruleTester.run("space-ops", rule, {
       code: "semantic = !{ return false; } &{ return true; }",
     },
     {
-      code: "foo\n  = ('1' / '2')\n  / '3'",
+      code: "foo\n  = ( '1' / '2' )\n  / '3'",
     },
     {
-      code: "foo 'With display name'\n  = ('1' / '2')\n  / '3'",
+      code: "foo 'With display name'\n  = ( '1' / '2' )\n  / '3'",
     },
     {
-      code: "foo = ('1'\n  / '2')",
+      code: "foo = ( '1'\n  / '2' )",
+    },
+    {
+      code: "foo = lab:'1'",
+    },
+    {
+      code: "foo = @'1' '2'",
+    },
+    {
+      code: "foo = @lab:'1'",
     },
   ],
 
   invalid: [
     {
       code: "foo =\n  '5'",
-      errors: [{ messageId: "oneSpace" }],
+      errors: [{ messageId: "exactSpace" }],
       output: "foo = '5'",
     },
     {
       code: "foo =  '6'",
-      errors: [{ messageId: "oneSpace" }],
+      errors: [{ messageId: "exactSpace" }],
       output: "foo = '6'",
     },
     {
       code: "foo ='7'",
-      errors: [{ messageId: "oneSpace" }],
+      errors: [{ messageId: "exactSpace" }],
       output: "foo = '7'",
     },
     {
@@ -88,24 +100,47 @@ ruleTester.run("space-ops", rule, {
       output: "semantic = !{ return false; } &{ return true; }",
     },
     {
-      code: "tight\n  = ('1'/'2')\n  /'3'",
+      code: "tight\n  = ( '1'/'2' )\n  /'3'",
       errors: [
-        { messageId: "oneSpace" },
-        { messageId: "oneSpace" },
-        { messageId: "oneSpace" },
+        { messageId: "atLeast", data: { num: 1, s: "" } },
+        { messageId: "exactSpace" },
+        { messageId: "exactSpace" },
       ],
-      output: "tight\n  = ('1' / '2')\n  / '3'",
+      output: "tight\n  = ( '1' / '2' )\n  / '3'",
       options: [],
     },
     {
-      code: "foo\n  = ('1'/\n\n'2')\n  /'3'",
+      code: "foo\n  = ( '1'/\n\n'2' )\n  /'3'",
       errors: [
-        { messageId: "oneSpace" },
-        { messageId: "oneSpace" },
-        { messageId: "oneSpace" },
+        { messageId: "exactSpace" },
+        { messageId: "exactSpace" },
+        { messageId: "exactSpace" },
       ],
-      output: "foo\n  = ('1' / '2')\n  / '3'",
+      output: "foo\n  = ( '1' / '2' )\n  / '3'",
       options: [{ beforeSlash: 1 }],
+    },
+    {
+      code: "foo = lab: '1'",
+      errors: [
+        { messageId: "noSpaces" },
+      ],
+      output: "foo = lab:'1'",
+    },
+    {
+      code: "foo = lab:'1'",
+      errors: [
+        { messageId: "exactSpace", data: { num: 2, s: "s" } },
+      ],
+      output: "foo = lab:  '1'",
+      options: [{ afterColon: 2 }],
+    },
+    {
+      code: "foo = lab:'1'",
+      errors: [
+        { messageId: "atLeast", data: { num: 2, s: "s" } },
+      ],
+      output: "foo = lab:  '1'",
+      options: [{ afterColon: -2 }],
     },
   ],
 });
