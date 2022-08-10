@@ -17,7 +17,7 @@ ruleTester.run("no-unused-rules", rule, {
       code: `
 foo = bar
 bar = "1"
-`
+`,
     },
   ],
   invalid: [

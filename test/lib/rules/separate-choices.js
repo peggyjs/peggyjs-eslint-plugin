@@ -18,7 +18,7 @@ ruleTester.run("separate-choices", rule, {
     },
     {
       code: "foo 'name here'\n  = '1'\n  / '2'",
-    }
+    },
   ],
   invalid: [
     {
@@ -40,5 +40,5 @@ ruleTester.run("separate-choices", rule, {
       },
       output: "foo 'name here'\r\n\t= '1'\r\n\t/ '2'",
     },
-  ]
+  ],
 });

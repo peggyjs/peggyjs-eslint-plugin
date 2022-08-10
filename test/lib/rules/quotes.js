@@ -18,19 +18,19 @@ ruleTester.run("quotes", rule, {
     },
     {
       code: 'Foo "one" = "1"',
-      options: ["double"]
+      options: ["double"],
     },
     {
       code: "Foo 'one' = '1'",
-      options: ["single"]
+      options: ["single"],
     },
     {
       code: "Foo '\"' = '\"'",
-      options: ["double", {avoidEscape: true}]
+      options: ["double", { avoidEscape: true }],
     },
     {
       code: 'Foo "\'" = "\'"',
-      options: ["single", {avoidEscape: true}]
+      options: ["single", { avoidEscape: true }],
     },
   ],
 
@@ -65,13 +65,13 @@ ruleTester.run("quotes", rule, {
     },
     {
       code: 'Foo = \'"\'',
-      options: ["double", {avoidEscape: false}],
+      options: ["double", { avoidEscape: false }],
       errors: [{ messageId: "wrongQuotes" }],
       output: 'Foo = "\\""',
     },
     {
       code: 'Foo = "\'"',
-      options: ["single", {avoidEscape: false}],
+      options: ["single", { avoidEscape: false }],
       errors: [{ messageId: "wrongQuotes" }],
       output: "Foo = '\\''",
     },

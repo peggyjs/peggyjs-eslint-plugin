@@ -1,5 +1,5 @@
+import { makeListener, n } from "../utils";
 import type { Rule } from "eslint";
-import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 function checkEmpty(
@@ -33,16 +33,14 @@ const rule: Rule.RuleModule = {
     schema: [],
   },
   create(context: Rule.RuleContext): Rule.RuleListener {
-    return {
-      // @ts-expect-error Peggy AST isn't expected by eslint
+    return makeListener({
       top_level_initializer(node: visitor.AST.TopLevelInitializer): void {
         checkEmpty(context, node);
       },
-      // @ts-expect-error Peggy AST isn't expected by eslint
       initializer(node: visitor.AST.Initializer): void {
         checkEmpty(context, node);
       },
-    };
+    });
   },
 };
 

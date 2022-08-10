@@ -14,7 +14,7 @@ const ruleTester = new RuleTester({
 ruleTester.run("no-empty-actions", rule, {
   valid: [
     {
-      code: "foo = '1' { return 1; }"
+      code: "foo = '1' { return 1; }",
     },
   ],
   invalid: [
@@ -22,6 +22,6 @@ ruleTester.run("no-empty-actions", rule, {
       code: "foo = '1' {}",
       errors: [{ messageId: "empty" }],
       output: "foo = '1'",
-    }
+    },
   ],
 });

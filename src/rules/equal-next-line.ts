@@ -1,6 +1,6 @@
+import { makeListener, n } from "../utils";
 import type { Rule } from "eslint";
 import { Settings } from "../settings";
-import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 function fixEquals(
@@ -66,8 +66,7 @@ const rule: Rule.RuleModule = {
     const indent = settings.indent;
     const newline = settings.newline;
 
-    return {
-      // @ts-expect-error Peggy AST isn't expected by eslint
+    return makeListener({
       rule(node: visitor.AST.Rule): void {
         const ruleLine = node.name.loc.start.line;
         const equalLine = node.equals.loc.start.line;
@@ -121,7 +120,7 @@ const rule: Rule.RuleModule = {
           /* c8 ignore stop */
         }
       },
-    };
+    });
   },
 };
 

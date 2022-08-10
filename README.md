@@ -66,6 +66,7 @@ module.exports = {
 | [@peggyjs/quotes](./docs/rules/quotes.md) | Enforce the consistent use of double or single quotes | ✒️ ⭐️ |
 | [@peggyjs/semantic-predicate-must-return](./docs/rules/semantic-predicate-must-return.md) | Semantic predicates must have a return statement. | ⭐️ |
 | [@peggyjs/separate-choices](./docs/rules/separate-choices.md) | Ensure that each top-level choice in a rule is on a new line. | ✒️ ⭐️ |
+| [@peggyjs/space-ops](./docs/rules/space-ops.md) | Consistent spacing around operators and other punctuation. | ✒️ ⭐️ |
 
 ## Settings
 

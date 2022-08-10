@@ -25,12 +25,12 @@ ruleTester.run("semantic-predicate-must-return", rule, {
     {
       code: "foo = n:'1' !{ n === '2' }",
       options: [],
-      errors: [{ messageId: "mustReturn" }]
+      errors: [{ messageId: "mustReturn" }],
     },
     {
       code: "foo = n:'1' &{ n === '1' }",
       options: [],
-      errors: [{ messageId: "mustReturn" }]
+      errors: [{ messageId: "mustReturn" }],
     },
   ],
 });

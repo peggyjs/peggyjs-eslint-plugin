@@ -1,6 +1,6 @@
+import { makeListener, n } from "../utils";
 import type { Rule } from "eslint";
 import { Settings } from "../settings";
-import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 const rule: Rule.RuleModule = {
@@ -22,8 +22,7 @@ const rule: Rule.RuleModule = {
     const indent = settings.indent;
     const newline = settings.newline;
 
-    return {
-      // @ts-expect-error Peggy AST isn't expected by eslint
+    return makeListener({
       rule(node: visitor.AST.Rule): void {
         const expr: visitor.AST.Expression = (node.expression.type === "named")
           ? node.expression.expression
@@ -52,7 +51,7 @@ const rule: Rule.RuleModule = {
           }
         }
       },
-    };
+    });
   },
 };
 

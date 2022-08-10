@@ -1,5 +1,5 @@
+import { makeListener, n } from "../utils";
 import type { Rule } from "eslint";
-import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 function checkForReturn(
@@ -30,16 +30,14 @@ const rule: Rule.RuleModule = {
     schema: [],
   },
   create(context: Rule.RuleContext): Rule.RuleListener {
-    return {
-      // @ts-expect-error Peggy AST isn't expected by eslint
+    return makeListener({
       semantic_and(node: visitor.AST.SemanticAndExpression): void {
         checkForReturn(context, node);
       },
-      // @ts-expect-error Peggy AST isn't expected by eslint
       semantic_not(node: visitor.AST.SemanticNotExpression): void {
         checkForReturn(context, node);
       },
-    };
+    });
   },
 };
 

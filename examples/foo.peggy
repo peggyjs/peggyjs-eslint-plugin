@@ -11,14 +11,14 @@ function baz() {
 }
 }
 
-Bar = first:Pos rest:("," @Num)* { return [FOO, first, baz(), ...rest]; }
+Bar = first:Pos rest:( "," @Num )* { return [FOO, first, baz(), ...rest]; }
 
 Pos = n:Num !{ return n > 0; }
 
 // eslint-disable-next-line @peggyjs/no-unused-rules
 Choice
-  = "one"
-  / ("two" / "three")
+  = foo:"one"
+  / ( "two" / "three" )
 
 Num "Integer"
   = n:$[0-9]+ { return parseInt(n, BASE); }

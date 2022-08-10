@@ -1,5 +1,5 @@
+import { makeListener, n } from "../utils";
 import type { Rule } from "eslint";
-import { n } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 function checkQuotes(
@@ -84,16 +84,14 @@ const rule: Rule.RuleModule = {
       ...context.options[1],
     };
 
-    return {
-      // @ts-expect-error Peggy AST isn't expected by eslint
+    return makeListener({
       display(node: visitor.AST.DisplayName): void {
         checkQuotes(context, style, opts.avoidEscape, node);
       },
-      // @ts-expect-error Peggy AST isn't expected by eslint
       literal(node: visitor.AST.LiteralExpression): void {
         checkQuotes(context, style, opts.avoidEscape, node);
       },
-    };
+    });
   },
 };
 
