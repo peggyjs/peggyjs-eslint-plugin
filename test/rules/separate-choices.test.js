@@ -1,11 +1,7 @@
 "use strict";
 
-const rule = require("../../../lib/rules/separate-choices").default;
+const rule = require("../../lib/rules/separate-choices").default;
 const RuleTester = require("eslint").RuleTester;
-const test = require("node:test");
-
-RuleTester.it = test.it;
-RuleTester.describe = test.describe;
 
 const ruleTester = new RuleTester({
   parser: require.resolve("@peggyjs/eslint-parser"),

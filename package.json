@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "node -r source-map-support/register --test",
+    "test": "mocha -r source-map-support/register --recursive",
     "precoverage": "npm run ts:sourcemap",
     "coverage": "c8 npm test",
     "postcoverage": "npm run ts",
@@ -22,6 +22,9 @@
   ],
   "author": "Joe Hildebrand <joe-github@cursive.net>",
   "license": "MIT",
+  "dependencies": {
+    "debug": "4.3.4"
+  },
   "devDependencies": {
     "@peggyjs/eslint-config": "3.0.0",
     "@peggyjs/eslint-parser": "github:peggyjs/peggyjs-eslint-parser",
@@ -34,6 +37,7 @@
     "c8": "7.12.0",
     "eslint": "8.21.0",
     "eslint-plugin-eslint-plugin": "5.0.2",
+    "eslint-plugin-mocha": "10.1.0",
     "mocha": "10.0.0",
     "source-map-support": "0.5.21",
     "typescript": "4.7.4"
@@ -43,9 +47,6 @@
     "eslint": ">=8.19.0"
   },
   "engines": {
-    "node": ">=18"
-  },
-  "dependencies": {
-    "debug": "4.3.4"
+    "node": ">=14.20"
   }
 }
