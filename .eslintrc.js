@@ -15,4 +15,15 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
   },
+  overrides: [
+    {
+      files: ["test/**/*.js"],
+      extends: [
+        "plugin:mocha/recommended",
+      ],
+      rules: {
+        "mocha/no-mocha-arrows": "off",
+      },
+    },
+  ],
 };
