@@ -21,7 +21,8 @@ module.exports = {
 };
 ```
 
-or if you'd like more control:
+You can also use "plugin:@peggyjs/all" to get ALL of the rules.
+If you'd like more control:
 
 ```js
 module.exports = {
@@ -35,7 +36,7 @@ module.exports = {
         "@peggyjs/newline": "\n",
       }
       rules: {
-        "@peggyjs/equal-next-line": ["error", "never", ["choice", "named"]],
+        "@peggyjs/equal-next-line": "error",
         ...
       },
     },

@@ -25,6 +25,8 @@
   "dependencies": {
     "debug": "4.3.4"
   },
+  "repository": "peggyjs/peggyjs-eslint-plugin",
+  "bugs": "https://github.com/peggyjs/peggyjs-eslint-plugin/issues",
   "devDependencies": {
     "@peggyjs/eslint-config": "3.0.0",
     "@peggyjs/eslint-parser": "github:peggyjs/peggyjs-eslint-parser",
