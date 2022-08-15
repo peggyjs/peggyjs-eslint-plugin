@@ -62,6 +62,7 @@ module.exports = {
 | [@peggyjs/equal-next-line](./docs/rules/equal-next-line.md) | Ensure that the equals sign in a rule is in a consistent location. | ✒️ ⭐️ |
 | [@peggyjs/no-empty-code-blocks](./docs/rules/no-empty-code-blocks.md) | Code blocks in actions and semantic predicates should not be empty. | ✒️ ⭐️ |
 | [@peggyjs/no-empty-initializers](./docs/rules/no-empty-initializers.md) | Top-level and per-instance initializers should not be empty. | ✒️ ⭐️ |
+| [@peggyjs/no-unused-labels](./docs/rules/no-unused-labels.md) | Labels may not be used without either an action or a semantic predicate to reference them. | ✒️ ⭐️ |
 | [@peggyjs/no-unused-rules](./docs/rules/no-unused-rules.md) | All rules except for the first one must be referenced by another rule. | ⭐️ |
 | [@peggyjs/quotes](./docs/rules/quotes.md) | Enforce the consistent use of double or single quotes. | ✒️ ⭐️ |
 | [@peggyjs/rule-order](./docs/rules/rule-order.md) | Rule definitions should come after all references to that rule, unless there is a rule loop. |  |

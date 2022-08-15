@@ -17,7 +17,7 @@ Pos = n:Num !{ return n > 0; }
 
 // eslint-disable-next-line @peggyjs/no-unused-rules
 Choice
-  = foo:"one"
+  = "one"
   / ( "two" / "three" )
   / Expr
 
