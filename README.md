@@ -8,7 +8,7 @@ grammars.
 Install with:
 
 ```bash
-npm install --save-dev peggyjs/peggyjs-eslint-plugin peggyjs/peggyjs-eslint-parser eslint
+npm install --save-dev @peggyjs/eslint-plugin @peggyjs/eslint-parser eslint
 ```
 
 (update this when we publish!)
