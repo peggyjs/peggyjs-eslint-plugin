@@ -46,22 +46,42 @@ const rule: Rule.RuleModule = {
     fixable: "whitespace",
     schema: [
       {
-        title: "style",
-        enum: ["always", "never"],
-      },
-      {
-        title: "exceptions",
-        type: "array",
-        items: {
-          type: "string",
-          enum: ["choice", "named"],
-        },
+        oneOf: [
+          {
+            title: "style",
+            type: "string",
+            enum: ["always", "never"],
+          },
+          {
+            type: "object",
+            properties: {
+              style: {
+                type: "string",
+                enum: ["always", "never"],
+              },
+              exceptions: {
+                type: "array",
+                items: {
+                  type: "string",
+                  enum: ["choice", "named"],
+                },
+              },
+            },
+          },
+        ],
       },
     ],
   },
+
   create(context: Rule.RuleContext): Rule.RuleListener {
-    const style = context.options[0] || "always";
-    const exceptions = context.options[1] || [];
+    const optObj = (typeof context.options[0] === "string")
+      ? { style: context.options[0] }
+      : context.options[0];
+    const opts = {
+      style: "never",
+      exceptions: ["choice", "named"],
+      ...optObj,
+    };
     const settings = new Settings(context.settings);
     const indent = settings.indent;
     const newline = settings.newline;
@@ -71,14 +91,18 @@ const rule: Rule.RuleModule = {
         const ruleLine = node.name.loc.start.line;
         const equalLine = node.equals.loc.start.line;
 
-        switch (style) {
+        switch (opts.style) {
           case "always": {
             if (ruleLine !== equalLine - 1) {
-              context.report({
-                node: n(node.equals),
-                messageId: "next",
-                fix: fixEquals(node, indent, newline),
-              });
+              if (!context.getSourceCode().commentsExistBetween(
+                n(node.name), n(node.equals)
+              )) {
+                context.report({
+                  node: n(node.equals),
+                  messageId: "next",
+                  fix: fixEquals(node, indent, newline),
+                });
+              }
             }
             break;
           }
@@ -87,13 +111,13 @@ const rule: Rule.RuleModule = {
             let fix: Rule.ReportFixer | null = null;
 
             if (ruleLine === equalLine) {
-              if (exceptions.includes(node.expression.type)) {
+              if (opts.exceptions.includes(node.expression.type)) {
                 // These go on the next line but they're not
                 messageId = "next";
                 fix = fixEquals(node, indent, newline);
               }
             } else {
-              if (exceptions.includes(node.expression.type)) {
+              if (opts.exceptions.includes(node.expression.type)) {
                 if (ruleLine !== equalLine - 1) {
                   // There's probably an extra blank line
                   messageId = "next";
@@ -116,7 +140,7 @@ const rule: Rule.RuleModule = {
           /* c8 ignore start */
           // Schema prevents unknown styles.
           default:
-            throw new Error(`Unknown style: '${style}'`);
+            throw new Error(`Unknown style: '${opts.style}'`);
           /* c8 ignore stop */
         }
       },

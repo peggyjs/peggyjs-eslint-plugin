@@ -1,6 +1,7 @@
 # @peggyjs/equal-next-line
 > Ensure that the equals sign in a rule is in a consistent location.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
+> - ✒️ This rule will fix all errors it finds.
 
 ## 📖 Rule Details
 
@@ -25,7 +26,7 @@ foo
 ```
 
 ```peg.js
-// eslint @peggyjs/equal-next-line: ["error", "never", ["choice", "named"]]
+// eslint @peggyjs/equal-next-line: ["error", {style: "never", exceptions: ["choice", "named"]}]
 
 foo
   = fruits
@@ -51,7 +52,7 @@ foo = "bar"
 ```
 
 ```peg.js
-// eslint @peggyjs/equal-next-line: ["error", "never", ["choice", "named"]]
+// eslint @peggyjs/equal-next-line: ["error", {style: "never", exceptions: ["choice", "named"]}]
 
 foo = fruits
 
@@ -65,9 +66,11 @@ display "This rule has a display name"
 
 ### Options
 
-The default style is "always".  If you select "never", you may have a second
-parameter with an array of exceptions.  Valid exceptions are "choice" and
-"named".
+The first parameter may be a string with the style as "always" or "never" (the
+default) or it may be an object with "style" and/or "exceptions" keys.  The
+value of "exceptions" must be an array, containing zero or more of the strings
+"choice" and "named" (both are the default).  If the style is "always",
+"exceptions" is ignored.
 
 ```json
 {

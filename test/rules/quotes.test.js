@@ -22,11 +22,11 @@ ruleTester.run("quotes", rule, {
     },
     {
       code: "Foo '\"' = '\"'",
-      options: ["double", { avoidEscape: true }],
+      options: [{ style: "double", avoidEscape: true }],
     },
     {
       code: 'Foo "\'" = "\'"',
-      options: ["single", { avoidEscape: true }],
+      options: [{ style: "single", avoidEscape: true }],
     },
   ],
 
@@ -61,13 +61,13 @@ ruleTester.run("quotes", rule, {
     },
     {
       code: 'Foo = \'"\'',
-      options: ["double", { avoidEscape: false }],
+      options: [{ style: "double", avoidEscape: false }],
       errors: [{ messageId: "wrongQuotes" }],
       output: 'Foo = "\\""',
     },
     {
       code: 'Foo = "\'"',
-      options: ["single", { avoidEscape: false }],
+      options: [{ style: "single", avoidEscape: false }],
       errors: [{ messageId: "wrongQuotes" }],
       output: "Foo = '\\''",
     },

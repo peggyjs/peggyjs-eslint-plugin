@@ -1,6 +1,7 @@
 # @peggyjs/camelCase
 > Rule names should be UpperCamelCase and label names should be lowerCamelCase.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
+> - ✒️ This rule will fix many, but not all errors.
 
 ## 📖 Rule Details
 

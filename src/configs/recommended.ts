@@ -10,17 +10,7 @@ const config: ESlint.ESLint.ConfigData = {
         "@peggyjs/indent": 2,
         "@peggyjs/newline": "\n",
       },
-      rules: {
-        "@peggyjs/camelCase": ["error"],
-        "@peggyjs/equal-next-line": ["error", "never", ["choice", "named"]],
-        "@peggyjs/no-empty-actions": "error",
-        "@peggyjs/no-empty-initializers": "error",
-        "@peggyjs/no-unused-rules": "error",
-        "@peggyjs/quotes": ["error", "double", { avoidEscape: true }],
-        "@peggyjs/semantic-predicate-must-return": "error",
-        "@peggyjs/separate-choices": "error",
-        "@peggyjs/space-ops": "error",
-      },
+      rules: {},
     },
     {
       files: ["**/*.peggy/*.js", "**/*.pegjs/*.js"],

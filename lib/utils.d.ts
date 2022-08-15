@@ -66,4 +66,7 @@ export interface VisitorFunctionMap {
     "*:exit"?: VisitorFunction<visitor.AST.Node>;
 }
 export declare function makeListener(map: VisitorFunctionMap): Rule.RuleListener;
+export declare function dirMap(...dirs: string[]): {
+    [id: string]: object;
+};
 export {};

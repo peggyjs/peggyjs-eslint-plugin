@@ -1,6 +1,7 @@
 # @peggyjs/no-empty-initializers
 > Top-level and per-instance initializers should not be empty.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
+> - ✒️ This rule will fix all errors it finds.
 
 ## 📖 Rule Details
 

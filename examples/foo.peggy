@@ -19,6 +19,23 @@ Pos = n:Num !{ return n > 0; }
 Choice
   = foo:"one"
   / ( "two" / "three" )
+  / Expr
 
 Num "Integer"
   = n:$[0-9]+ { return parseInt(n, BASE); }
+
+// Small sexpr subset to check reference loops
+Expr = "(" Content1 ")"
+
+// These two just to make the loop bigger
+Content1 = Content2
+Content2 = Content
+
+Content = CharData? ( Expr CharData? )*
+
+CharData = $Char+
+
+Char
+  = [^()]
+  / "\\("
+  / "\\)"

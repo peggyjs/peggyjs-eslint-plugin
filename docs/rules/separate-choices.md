@@ -1,6 +1,7 @@
 # @peggyjs/separate-choices
 > Ensure that each top-level choice in a rule is on a new line.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
+> - ✒️ This rule will fix all errors it finds.
 
 ## 📖 Rule Details
 

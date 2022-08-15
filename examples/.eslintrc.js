@@ -4,6 +4,6 @@ module.exports = {
   root: true,
   extends: [
     "@peggyjs",
-    "plugin:@peggyjs/recommended",
+    "plugin:@peggyjs/all",
   ],
 };
