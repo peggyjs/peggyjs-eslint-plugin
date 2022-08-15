@@ -4,8 +4,10 @@
 .github/
 .gitignore
 .vscode/
+*.d.ts
 coverage/
+docs/
 examples/
+src/
 test/
 tsconfig.json
-src/
