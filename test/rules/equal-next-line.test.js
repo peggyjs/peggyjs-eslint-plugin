@@ -10,8 +10,7 @@ const ruleTester = new RuleTester({
 ruleTester.run("equal-next-line", rule, {
   valid: [
     {
-      code: "foo\n  = '1'",
-      options: [],
+      code: "foo = '1'",
     },
     {
       code: "foo = '1'",
@@ -23,18 +22,18 @@ ruleTester.run("equal-next-line", rule, {
     },
     {
       code: "foo\n  = '1'\n  / '2'",
-      options: ["never", ["choice"]],
+      options: [{ style: "never", exceptions: ["choice"] }],
     },
     {
       code: "foo 'Foo has a name'\n  = '1'",
-      options: ["never", ["named"]],
+      options: [{ style: "never", exceptions: ["named"] }],
     },
   ],
 
   invalid: [
     {
       code: "foo      = '1'",
-      options: [],
+      options: ["always"],
       errors: [{ messageId: "next" }],
       output: "foo\n  = '1'",
     },
@@ -52,73 +51,73 @@ ruleTester.run("equal-next-line", rule, {
     },
     {
       code: "foo\n = '1'",
-      options: ["never", ["choice"]],
+      options: [{ style: "never", exceptions: ["choice"] }],
       errors: [{ messageId: "same" }],
       output: "foo = '1'",
     },
     {
       code: "foo = '1' / '2'",
-      options: ["never", ["choice"]],
+      options: [{ style: "never", exceptions: ["choice"] }],
       errors: [{ messageId: "next" }],
       output: "foo\n  = '1' / '2'",
     },
     {
       code: "foo\n\n  = '1' / '2'",
-      options: ["never", ["choice"]],
+      options: [{ style: "never", exceptions: ["choice"] }],
       errors: [{ messageId: "next" }],
       output: "foo\n  = '1' / '2'",
     },
     {
-      code: "foo 'Foo has a name' = '1'",
+      code: "foo 'Foo has a name 1' = '1'",
       options: ["always"],
       errors: [{ messageId: "next" }],
-      output: "foo 'Foo has a name'\n  = '1'",
+      output: "foo 'Foo has a name 1'\n  = '1'",
     },
     {
-      code: "foo 'Foo has a name'\n  = '1'",
-      options: ["never"],
+      code: "foo 'Foo has a name 2'\n  = '1'",
+      options: [{ style: "never", exceptions: [] }],
       errors: [{ messageId: "same" }],
-      output: "foo 'Foo has a name' = '1'",
+      output: "foo 'Foo has a name 2' = '1'",
     },
     {
-      code: "foo 'Foo has a name' = '1'",
-      options: ["never", ["named"]],
+      code: "foo 'Foo has a name 3' = '1'",
+      options: [{ style: "never", exceptions: ["named"] }],
       errors: [{ messageId: "next" }],
-      output: "foo 'Foo has a name'\n  = '1'",
+      output: "foo 'Foo has a name 3'\n  = '1'",
     },
     {
-      code: "foo  'Foo has a name'\n\n  = '1'",
-      options: ["never", ["named"]],
+      code: "foo  'Foo has a name 4'\n\n  = '1'",
+      options: [{ style: "never", exceptions: ["named"] }],
       errors: [{ messageId: "next" }],
-      output: "foo  'Foo has a name'\n  = '1'",
+      output: "foo  'Foo has a name 4'\n  = '1'",
     },
     {
-      code: "foo  'Foo has a name'\n\n  = '1'",
-      options: ["never", ["named"]],
+      code: "foo  'Foo has a name 5'\n\n  = '1'",
+      options: [{ style: "never", exceptions: ["named"] }],
       errors: [{ messageId: "next" }],
       settings: {
         "@peggyjs/indent": "tab",
         "@peggyjs/newline": "\r\n",
       },
-      output: "foo  'Foo has a name'\r\n\t= '1'",
+      output: "foo  'Foo has a name 5'\r\n\t= '1'",
     },
     {
-      code: "foo  'Foo has a name'\n\n  = '1'",
-      options: ["never", ["named"]],
+      code: "foo  'Foo has a name 6'\n\n  = '1'",
+      options: [{ style: "never", exceptions: ["named"] }],
       errors: [{ messageId: "next" }],
       settings: {
         "@peggyjs/indent": "   ",
       },
-      output: "foo  'Foo has a name'\n   = '1'",
+      output: "foo  'Foo has a name 6'\n   = '1'",
     },
     {
-      code: "foo  'Foo has a name'\n\n  = '1'",
-      options: ["never", ["named"]],
+      code: "foo  'Foo has a name 7'\n\n  = '1'",
+      options: [{ style: "never", exceptions: ["named"] }],
       errors: [{ messageId: "next" }],
       settings: {
         "@peggyjs/indent": 3,
       },
-      output: "foo  'Foo has a name'\n   = '1'",
+      output: "foo  'Foo has a name 7'\n   = '1'",
     },
   ],
 });

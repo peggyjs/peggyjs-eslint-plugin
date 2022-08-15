@@ -1,6 +1,7 @@
 # @peggyjs/quotes
 > Enforce the consistent use of double or single quotes.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
+> - ✒️ This rule will fix all errors it finds.
 
 ## 📖 Rule Details
 
@@ -36,13 +37,13 @@ Foo 'Crepuscular' = "bar"
 ```
 
 ```peg.js
-// eslint @peggyjs/quotes: ["error", "double", { avoidEscape: true }]
+// eslint @peggyjs/quotes: ["error", { style: "double", avoidEscape: true }]
 
 Foo 'More "Ocelots"' = 'Where is the "bar"?'
 ```
 
 ```peg.js
-// eslint @peggyjs/quotes: ["error", "double", { avoidEscape: false }]
+// eslint @peggyjs/quotes: ["error", { style: "double", avoidEscape: false }]
 
 Foo "More \"Ocelots\"" = "Where is the \"bar\"?"
 ```
@@ -50,15 +51,15 @@ Foo "More \"Ocelots\"" = "Where is the \"bar\"?"
 ### Options
 
 The first parameter is the quoting style, either "single" or "double" (the
-default).  If a second parameter is given, it must be an object with the key
-"avoidEscapes".  If true, you can use the non-preferred quoting style to avoid
-having to backslash-escape your preferred quotes.  If false, there are no
-exceptions.
+default), or an object with the keys "style" and "avoidEscapes".  If
+"avoidEscapes" is true (the default), you can use the non-preferred quoting
+style to avoid having to backslash-escape your preferred quotes.  If false,
+there are no exceptions.
 
 ```json
 {
     "rules": {
-        "@peggyjs/quotes": ["error", "double", { avoidEscape: true }]
+        "@peggyjs/quotes": ["error", { style: "double", avoidEscape: true }]
     }
 }
 ```

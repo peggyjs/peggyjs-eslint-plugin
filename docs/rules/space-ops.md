@@ -1,6 +1,7 @@
 # @peggyjs/space-ops
 > Consistent spacing around operators and other punctuation.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
+> - ✒️ This rule will fix all errors it finds.
 
 ## 📖 Rule Details
 

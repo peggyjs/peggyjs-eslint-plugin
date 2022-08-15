@@ -63,33 +63,46 @@ const rule: Rule.RuleModule = {
     fixable: "code",
     schema: [
       {
-        enum: ["single", "double"],
-      },
-      {
-        type: "object",
-        properties: {
-          avoidEscape: {
-            type: "boolean",
+        oneOf: [
+          {
+            type: "object",
+            properties: {
+              avoidEscape: {
+                type: "boolean",
+              },
+              style: {
+                type: "string",
+                enum: ["single", "double"],
+              },
+            },
+            additionalProperties: false,
           },
-        },
-        additionalProperties: false,
+          {
+            title: "style",
+            type: "string",
+            enum: ["single", "double"],
+          },
+        ],
       },
     ],
   },
 
   create(context: Rule.RuleContext): Rule.RuleListener {
-    const style = context.options[0] || "double";
+    const optObj = (typeof context.options[0] === "string")
+      ? { style: context.options[0] }
+      : context.options[0];
     const opts = {
       avoidEscape: true,
-      ...context.options[1],
+      style: "double",
+      ...optObj,
     };
 
     return makeListener({
       display(node: visitor.AST.DisplayName): void {
-        checkQuotes(context, style, opts.avoidEscape, node);
+        checkQuotes(context, opts.style, opts.avoidEscape, node);
       },
       literal(node: visitor.AST.LiteralExpression): void {
-        checkQuotes(context, style, opts.avoidEscape, node);
+        checkQuotes(context, opts.style, opts.avoidEscape, node);
       },
     });
   },
