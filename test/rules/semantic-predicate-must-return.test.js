@@ -28,5 +28,23 @@ ruleTester.run("semantic-predicate-must-return", rule, {
       options: [],
       errors: [{ messageId: "mustReturn" }],
     },
+    {
+      code: `
+foo = n:'1' &{
+  const areturn = 1;
+  console.log(areturn);
+}`,
+      options: [],
+      errors: [{ messageId: "mustReturn" }],
+    },
+    {
+      code: `
+foo = n:'1' &{
+  const returna = 1;
+  console.log(returna);
+}`,
+      options: [],
+      errors: [{ messageId: "mustReturn" }],
+    },
   ],
 });
