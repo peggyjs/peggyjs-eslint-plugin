@@ -9,7 +9,7 @@ function checkForReturn(
   // This is weak, but I don't want to include a full JS parse here
   // to do actual analysis.  This will catch the most common issue, which
   // is my consistently doing `!{ n === 1 }` without the return.
-  if (!/return/.test(node.code.value)) {
+  if (!/\breturn\b/.test(node.code.value)) {
     context.report({
       node: n(node.code),
       messageId: "mustReturn",
