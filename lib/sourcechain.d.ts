@@ -26,6 +26,12 @@ export default class SourceChain {
      */
     toString(): string;
     /**
+     * Concatenate all of the blocks together, with debug information.
+     *
+     * @returns The debug text of the generated file.
+     */
+    toDebugString(): string;
+    /**
      * Map a location in the generated file back to a location in the original
      * file.  Assumption: All input locations are valid, so there can't be
      * columns past the end of a line for example.

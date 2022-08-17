@@ -1,14 +1,14 @@
 {{
-const FOO = "foo";
+  const FOO = "foo";
 }}
 
 {
-const BASE = options.base || 10;
+  const BASE = options.base || 10;
 
-// A comment after a blank line
-function baz() {
-  return 3;
-}
+  // A comment after a blank line
+  function baz() {
+    return 3;
+  }
 }
 
 Bar = first:Pos rest:( "," @Num )* { return [FOO, first, baz(), ...rest]; }

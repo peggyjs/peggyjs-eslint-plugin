@@ -6,6 +6,7 @@ import dbg from "debug";
 const debug = dbg("eslintrc:@peggyjs/processor");
 const sourceMaps = new Map<string, SourceChain>();
 const RETAIN_NEWLINES = /(?<=(?:\r?\n))/g;
+const NON_EMPTY = /^(\s*)[^\r\n]+\r?\n?$/;
 
 interface Parameters {
   [name: string]: visitor.AST.Name;
@@ -87,6 +88,68 @@ function findFunctions(root: visitor.AST.Program): Fun[] {
 }
 
 /**
+ * Extra work to indent a code block carefully.
+ *
+ * @param doc Output doc.
+ * @param code Input code block.
+ * @param spaces How many spaces to indent in the output.
+ */
+function indent(
+  doc: SourceChain, code: visitor.AST.Code, spaces = 2
+): void {
+  const lines = code.value.split(RETAIN_NEWLINES);
+  let excess = 0;
+
+  // Take the indentation of the first non-empty line as "desired" indent,
+  // we will normalize the output from there to the desired number of spaces.
+  for (const line of lines) {
+    const m = line.match(NON_EMPTY);
+    if (m) {
+      excess = m[1].length;
+      break;
+    }
+  }
+  let lineNum = 0;
+  let offset = 0;
+  if (lines.length > 0) {
+    lines[lines.length - 1] = lines[lines.length - 1].replace(/[ \t]*$/, "");
+  }
+  const extra = "".padEnd(spaces - excess);
+  for (let line of lines) {
+    const m = line.match(NON_EMPTY);
+    let column = 0;
+    if (m) {
+      // Indent non-empty lines more, in case the first non-blank line wasn't
+      // indented enough for us.
+      if (extra) {
+        doc.add(extra);
+      }
+      // Trim the excess start
+      column = Math.min(m[1].length, excess) - spaces;
+      if (column > 0) {
+        line = line.substring(column);
+      } else {
+        column = 0;
+      }
+    }
+
+    doc.add(
+      line,
+      {
+        source: code.loc.source || undefined,
+        start: {
+          line: code.loc.start.line + lineNum,
+          column: column + (lineNum ? 0 : code.loc.start.column),
+        },
+        offset: code.range[0] + offset + column,
+      }
+    );
+    offset += line.length + column; // We cut "column" spaces out
+    lineNum++;
+  }
+}
+
+/**
  * Use eslint extensibility to extract javascript from input peggy grammar,
  * generate a very simplified version of the compiled parser that has just
  * enough structure that valid grammar+js will lint clean.
@@ -112,11 +175,8 @@ export function preprocess(
 "use strict";
 `);
 
-  const TLI = ast.body.topLevelInitializer;
-  if (TLI) {
-    if (TLI.code.value.replace(/\r?\n/g, "").trim()) {
-      doc.add(TLI.code);
-    }
+  if (ast.body.topLevelInitializer) {
+    indent(doc, ast.body.topLevelInitializer.code, 0);
   }
 
   // Environment that grammar JS is expecting, then use everything to avoid
@@ -144,43 +204,11 @@ function parse(input, options) {
 `);
 
   if (ast.body.initializer) {
-    // Extra work to indent carefully
-    let lineNum = 0;
-    let offset = 0;
-    const code = ast.body.initializer.code;
-    for (const line of code.value.split(RETAIN_NEWLINES)) {
-      if (line.match(/^[^\r\n]+\r?\n/)) {
-        // Indent non-empty lines.
-        // If we wanted code in initializers to be indented in Peggy files,
-        // we could remove all this complexity, but we'd have to outdent
-        // top-level initializers.
-        doc.add("  ");
-      }
-      doc.add(
-        line,
-        {
-          source: code.loc.source || undefined,
-          start: {
-            line: code.loc.start.line + lineNum,
-            column: 0,
-          },
-          offset: code.range[0] + offset + 1,
-        }
-      );
-      offset += line.length;
-      lineNum++;
-    }
+    indent(doc, ast.body.initializer.code);
   }
 
   let count = 0;
   for (const fun of functions) {
-    if (fun.body.value.replace(/\r?\n/g, "").trim() === "") {
-      // Catch this with no-empty-code-blocks.
-      continue;
-    }
-    doc.add(`\n  function peg$f${count++}(`);
-    let first = true;
-
     // Not actually possible, just keeping TS happy.
     /* c8 ignore start */
     if (!fun.params) {
@@ -188,6 +216,13 @@ function parse(input, options) {
     }
     /* c8 ignore stop */
 
+    if (fun.body.value.replace(/\r?\n/g, "").trim() === "") {
+      // Catch this with no-empty-code-blocks.
+      continue;
+    }
+    doc.add(`\n  function peg$f${count++}(`);
+
+    let first = true;
     for (const name of Object.values(fun.params)) {
       if (first) {
         first = false;
@@ -199,7 +234,8 @@ function parse(input, options) {
     }
     doc.add("\n  ) ");
     doc.add(fun.body.open);
-    doc.add(fun.body);
+    indent(doc, fun.body, 4);
+    doc.add("  ");
     doc.add(fun.body.close);
     doc.add("\n");
   }
@@ -222,7 +258,8 @@ parse("", {});
 
   // When needed:
   // debug(docText);
-  // require("fs").writeFileSync(`${filename}-0.js`, docText);
+  // require("fs").writeFileSync(`${filename}-0.js`, doc.toDebugString());
+  // require("fs").writeFileSync(`${filename}-0.js`, doc.toString());
 
   sourceMaps.set(filename, doc);
   return [
