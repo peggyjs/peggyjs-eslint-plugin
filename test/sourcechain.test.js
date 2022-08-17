@@ -17,6 +17,13 @@ describe("SourceChain", () => {
     assert.equal(sc.blocks[0].column, NaN);
   });
 
+  it("debug string", () => {
+    const sc = new SourceChain();
+    sc.add("foo\n");
+    sc.add("fot\n", { start: { line: 6, column: 1 }, offset: 23 });
+    assert.equal(sc.toDebugString(), "[:1,0]foo\n[6,1 23:1,0]fot\n");
+  });
+
   it("sourced string", () => {
     const sc = new SourceChain();
     sc.add("fot\n", { start: { line: 6, column: 1 }, offset: 23 });

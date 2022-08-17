@@ -102,6 +102,20 @@ export default class SourceChain {
   }
 
   /**
+   * Concatenate all of the blocks together, with debug information.
+   *
+   * @returns The debug text of the generated file.
+   */
+  public toDebugString(): string {
+    return this.blocks.reduce((t, block) => {
+      if (block.loc) {
+        return `${t}[${block.loc.start.line},${block.loc.start.column} ${block.loc.offset}:${block.count},${block.tail}]${block.text}`;
+      }
+      return `${t}[:${block.count},${block.tail}]${block.text}`;
+    }, "");
+  }
+
+  /**
    * Map a location in the generated file back to a location in the original
    * file.  Assumption: All input locations are valid, so there can't be
    * columns past the end of a line for example.
@@ -122,7 +136,7 @@ export default class SourceChain {
 
     debug("Looking for: %o", loc);
     for (const block of this.blocks) {
-      debug("%d:%d Block: %o", line, col, block);
+      debug("%d,%d: %o", line, col, block);
       const nextLine = line + block.count;
       if (block.tail ? loc.line <= nextLine : loc.line < nextLine) {
         // Found the right block, unless it's incomplete and we're past the

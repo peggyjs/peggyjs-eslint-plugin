@@ -114,5 +114,12 @@ foo = '1' { return ONE; }
 foo = '1' {  }
 `, null);
     assert(res2);
+
+    const res3 = processor.preprocess(`
+foo = '1' {
+      return 1;
+    }
+`, null);
+    assert(res3);
   });
 });
