@@ -1,6 +1,6 @@
+import { Bias, SourceChain } from "./sourcechain";
 import { parseForESLint, visitor } from "@peggyjs/eslint-parser";
 import type ESlint from "eslint";
-import SourceChain from "./sourcechain";
 import dbg from "debug";
 
 const debug = dbg("eslintrc:@peggyjs/processor");
@@ -115,13 +115,14 @@ function indent(
     lines[lines.length - 1] = lines[lines.length - 1].replace(/[ \t]*$/, "");
   }
   const extra = "".padEnd(spaces - excess);
+  let first = true;
   for (let line of lines) {
     const m = line.match(NON_EMPTY);
     let column = 0;
     if (m) {
       // Indent non-empty lines more, in case the first non-blank line wasn't
       // indented enough for us.
-      if (extra) {
+      if (extra && !first) {
         doc.add(extra);
       }
       // Trim the excess start
@@ -146,6 +147,7 @@ function indent(
     );
     offset += line.length + column; // We cut "column" spaces out
     lineNum++;
+    first = false;
   }
 }
 
@@ -191,9 +193,13 @@ function parse(input, options) {
 
   function location() { return {}; }
 
-  function expected(description, location) { return description + location; }
+  function expected(description, location) {
+    throw new Error(description + location);
+  }
 
-  function error(message, location) { return message + location; }
+  function error(message, location) {
+    throw new Error(message + location);
+  }
 
   text();
   offset();
@@ -258,8 +264,8 @@ parse("", {});
 
   // When needed:
   // debug(docText);
-  // require("fs").writeFileSync(`${filename}-0.js`, doc.toDebugString());
-  // require("fs").writeFileSync(`${filename}-0.js`, doc.toString());
+  // require("fs").writeFileSync(`${filename}-0.js`, docText);
+  // require("fs").writeFileSync(`${filename}-1.js`, doc.toDebugString());
 
   sourceMaps.set(filename, doc);
   return [
@@ -291,7 +297,7 @@ export function postprocess(
       const start = map.originalLocation({
         line: msg.line,
         column: msg.column - 1, // Map is 0-based cols
-      });
+      }, Bias.LEAST_UPPER_BOUND);
       if (start) {
         msg.line = start.line;
         msg.column = start.column + 1; // Message is 1-based cols
@@ -306,7 +312,7 @@ export function postprocess(
           ? map.originalLocation({
             line: msg.endLine,
             column: msg.endColumn - 1,  // Map is 0-based cols
-          })
+          }, Bias.GREATEST_LOWER_BOUND)
           : null;
       if (end) {
         msg.endLine = end.line;
@@ -318,9 +324,8 @@ export function postprocess(
       }
       if (msg.fix) {
         msg.fix.range = [
-          // Yes, I would have used map, but Typescript.
-          map.originalOffset(msg.fix.range[0]),
-          map.originalOffset(msg.fix.range[1]),
+          map.originalOffset(msg.fix.range[0], Bias.LEAST_UPPER_BOUND),
+          map.originalOffset(msg.fix.range[1], Bias.GREATEST_LOWER_BOUND),
         ];
       }
       debug("After: %o", msg);
