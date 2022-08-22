@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha -r source-map-support/register --recursive",
+    "test": "mocha",
     "precoverage": "npm run ts:sourcemap",
     "coverage": "c8 npm test",
     "postcoverage": "npm run ts",
