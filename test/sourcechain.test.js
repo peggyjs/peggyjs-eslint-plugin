@@ -1,7 +1,7 @@
 "use strict";
 
 const assert = require("assert");
-const SourceChain = require("../lib/sourcechain.js").default;
+const { SourceChain } = require("../lib/sourcechain.js");
 
 // Reminder: All columns are zero-based.
 
@@ -59,10 +59,10 @@ describe("SourceChain", () => {
     sc.add("bar", { start: { line: 8, column: 7 }, offset: 67 });
     assert.equal(sc.toString(), "fot\n  bar");
     assert.deepEqual(sc.originalLocation({ line: 2, column: 1 }), {
-      line: 8,
-      column: 7,
+      line: 7,
+      column: 0,
     });
-    assert.equal(sc.originalOffset(4), NaN);
+    assert.equal(sc.originalOffset(4), 55); // End of the previous block
     assert.deepEqual(sc.originalLocation({ line: 2, column: 3 }), { // The "a"
       line: 8,
       column: 8,
@@ -130,4 +130,14 @@ describe("SourceChain", () => {
       { line: 13, column: 5 }
     );
   });
+});
+
+it("has a block with a newline and more followed by a generated block", () => {
+  const sc = new SourceChain();
+  sc.add("foo\nbar", { start: { line: 6, column: 1 }, offset: 51 });
+  sc.add("  ");
+  assert.deepEqual(
+    sc.originalLocation({ line: 2, column: 3 }),
+    { line: 7, column: 3 }
+  );
 });

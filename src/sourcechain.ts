@@ -20,6 +20,22 @@ export interface Location {
 }
 
 /**
+ * How should we handle positions that aren't valid?
+ */
+export enum Bias {
+  /**
+   * If the position specified is in boilerplate text, return the end of the
+   * *previous* non-boilerplate block.
+   */
+  LEAST_UPPER_BOUND = 0,
+  /**
+   * If the position specified is in boilerplate text, return the end of the
+   * *next* non-boilerplate block.
+   */
+   GREATEST_LOWER_BOUND = 1,
+}
+
+/**
  * One block of translated text.  Some blocks have a source location, others
  * are purely boilerplate.
  */
@@ -65,7 +81,7 @@ class Block {
 /**
  * A mapped-source string.
  */
-export default class SourceChain {
+export class SourceChain {
   private blocks: Block[];
 
   public constructor() {
@@ -125,7 +141,10 @@ export default class SourceChain {
    *   null if the text was boilerplate.
    * @throws Invalid location
    */
-  public originalLocation(loc: EStree.Position): EStree.Position | null {
+  public originalLocation(
+    loc: EStree.Position,
+    bias: Bias = Bias.LEAST_UPPER_BOUND
+  ): EStree.Position | null {
     if (!loc) {
       return null;
     }
@@ -144,26 +163,35 @@ export default class SourceChain {
         const lineOffset = loc.line - line;
         if (block.tail
             && (block.count === lineOffset)
-            && (loc.column > col + block.tail)) {
+            && (loc.column >= col + block.tail)) {
           // Move over by the last line of the incomplete bock
           col += block.tail;
         } else {
           // Now we're sure we've got the right block
           if (!block.loc) {
             // But it's in the generated section.
-            // Maybe we're just past the end of the previous block?
-            if (prev?.loc && !prev.tail && (loc.column === 0)) {
+            // Do we want the end of the previous block?
+            if ((bias === Bias.LEAST_UPPER_BOUND) && prev?.loc) {
+              if (prev.tail) {
+                return {
+                  line: prev.line + prev.count,
+                  column:
+                    prev.count ? prev.tail : prev.loc.start.column + prev.tail,
+                };
+              }
               return {
                 line: prev.line + prev.count,
                 column: 0,
               };
             }
 
-            // Find the next non-generated section.
+            // Or the next one?
             flow = true;
+            line = nextLine;
             continue;
           }
           if (flow) {
+            // Use block.column below.
             col = loc.column;
           }
           const ret = {
@@ -175,8 +203,10 @@ export default class SourceChain {
           return ret;
         }
       }
+      if (block.loc) {
+        prev = block;
+      }
       line = nextLine;
-      prev = block;
     }
     return null;
   }
@@ -188,15 +218,27 @@ export default class SourceChain {
    * @returns Offset in the original file, or NaN if the offset is into
    *   boilerplate.
    */
-  public originalOffset(offset: number): number {
+  public originalOffset(
+    offset: number,
+    bias: Bias = Bias.LEAST_UPPER_BOUND
+  ): number {
     let cur = 0;
+    let prev: Block | null = null;
     for (const block of this.blocks) {
       const nextOffset = cur + block.text.length;
-      if (offset < nextOffset) {
-        if (!block.loc) {
-          return NaN;
+      if (block.loc) {
+        if (
+          (bias === Bias.LEAST_UPPER_BOUND)
+            ? offset < nextOffset
+            : offset <= nextOffset
+        ) {
+          return block.loc.offset + offset - cur;
         }
-        return block.loc.offset + offset - cur;
+        prev = block;
+      } else if ((bias === Bias.LEAST_UPPER_BOUND)
+                 && (offset < nextOffset)
+                 && prev?.loc) {
+        return prev.loc.offset + offset - cur + prev.text.length;
       }
       cur = nextOffset;
     }

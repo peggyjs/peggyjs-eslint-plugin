@@ -6,9 +6,24 @@ export interface Location {
     offset: number;
 }
 /**
+ * How should we handle positions that aren't valid?
+ */
+export declare enum Bias {
+    /**
+     * If the position specified is in boilerplate text, return the end of the
+     * *previous* non-boilerplate block.
+     */
+    LEAST_UPPER_BOUND = 0,
+    /**
+     * If the position specified is in boilerplate text, return the end of the
+     * *next* non-boilerplate block.
+     */
+    GREATEST_LOWER_BOUND = 1
+}
+/**
  * A mapped-source string.
  */
-export default class SourceChain {
+export declare class SourceChain {
     private blocks;
     constructor();
     /**
@@ -41,7 +56,7 @@ export default class SourceChain {
      *   null if the text was boilerplate.
      * @throws Invalid location
      */
-    originalLocation(loc: EStree.Position): EStree.Position | null;
+    originalLocation(loc: EStree.Position, bias?: Bias): EStree.Position | null;
     /**
      * Compute the original offset for a generated offset.
      *
@@ -49,5 +64,5 @@ export default class SourceChain {
      * @returns Offset in the original file, or NaN if the offset is into
      *   boilerplate.
      */
-    originalOffset(offset: number): number;
+    originalOffset(offset: number, bias?: Bias): number;
 }
