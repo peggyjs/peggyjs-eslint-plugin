@@ -1,6 +1,34 @@
 import { makeListener, n } from "../utils";
+import type { Position } from "estree";
 import type { Rule } from "eslint";
+import assert from "assert";
 import type { visitor } from "@peggyjs/eslint-parser";
+
+interface Opts {
+  messageId: string;
+  start: Position;
+  end: Position;
+  range: [number, number];
+  spaces: number;
+}
+
+function report(
+  context: Rule.RuleContext,
+  opts: Opts
+): void {
+  const asp = Math.abs(opts.spaces);
+  context.report({
+    loc: { start: opts.start, end: opts.end },
+    messageId: opts.messageId,
+    data: {
+      num: String(asp),
+      s: asp > 1 ? "s" : "",
+    },
+    fix(fixer: Rule.RuleFixer): Rule.Fix {
+      return fixer.replaceTextRange(opts.range, "".padEnd(asp));
+    },
+  });
+}
 
 function check(
   context: Rule.RuleContext,
@@ -11,24 +39,20 @@ function check(
   const beforeEnd = before.loc.end;
   const afterStart = after.loc.start;
   let messageId: string | undefined = undefined;
-  let data: { [key: string]: string } | undefined = undefined;
 
   if (spaces < 0) {
     if ((afterStart.line > beforeEnd.line)
-        || (afterStart.column >= beforeEnd.column + 1)) {
+        || (afterStart.column >= beforeEnd.column - spaces)) {
       return;
     }
     messageId = "atLeast";
-    data = {
-      num: String(-spaces),
-      s: spaces < -1 ? "s" : "",
-    };
   } else {
     if ((afterStart.line === beforeEnd.line)
         && (afterStart.column === beforeEnd.column + spaces)) {
+      // Works for or zero or more.
       return;
     }
-    messageId = "noSpaces";
+    messageId = "noSpaces";  // May be reset below.
   }
   if (spaces > 0) {
     const src = context.getSourceCode();
@@ -36,24 +60,14 @@ function check(
       return;
     }
     messageId = "exactSpace";
-    data = {
-      num: String(spaces),
-      s: spaces > 1 ? "s" : "",
-    };
   }
-  context.report({
-    loc: {
-      start: beforeEnd,
-      end: afterStart,
-    },
+
+  report(context, {
     messageId,
-    data,
-    fix(fixer: Rule.RuleFixer): Rule.Fix {
-      return fixer.replaceTextRange([
-        before.range[1],
-        after.range[0],
-      ], "".padEnd(Math.abs(spaces)));
-    },
+    start: beforeEnd,
+    end: afterStart,
+    range: [before.range[1], after.range[0]],
+    spaces,
   });
 }
 
@@ -82,8 +96,10 @@ const rule: Rule.RuleModule = {
         afterEquals: { type: "number" },
         afterOpenParen: { type: "number" },
         afterSlash: { type: "number" },
+        beforeCloseBrace: { type: "number" },
         beforeCloseParen: { type: "number" },
         beforeColon: { type: "number" },
+        beforeOpenBrace: { type: "number" },
         beforePlus: { type: "number" },
         beforeQuestion: { type: "number" },
         beforeSlash: { type: "number" },
@@ -102,8 +118,10 @@ const rule: Rule.RuleModule = {
       afterEquals: 1,
       afterOpenParen: -1,
       afterSlash: 1,
+      beforeCloseBrace: -1,
       beforeCloseParen: -1,
       beforeColon: 0,
+      beforeOpenBrace: -1,
       beforePlus: 0,
       beforeQuestion: 0,
       beforeSemi: 0,
@@ -132,8 +150,42 @@ const rule: Rule.RuleModule = {
           check(context, expr, node.semi, opts.beforeSemi);
         }
       },
+      action(node: visitor.AST.ActionExpression): void {
+        check(context, node.expression, node.code.open, opts.beforeOpenBrace);
+      },
       one_or_more(node: visitor.AST.OneOrMoreExpression): void {
         check(context, node.expression, node.operator, opts.beforePlus);
+      },
+      code(node: visitor.AST.Code): void {
+        if (/\n$/.test(node.value)) {
+          return;
+        }
+        const m = node.value.match(/ *$/);
+        assert(m); // Should always match
+        const trail = m[0].length;
+        let messageId: string | undefined = undefined;
+        const spaces = opts.beforeCloseBrace;
+        if (spaces < 0) {
+          if (trail >= -spaces) {
+            return;
+          }
+          messageId = "atLeast";
+        } else {
+          if (trail === spaces) {
+            return;
+          }
+          messageId = spaces ? "exactSpace" : "noSpaces";
+        }
+        report(context, {
+          messageId,
+          start: {
+            line: node.loc.end.line,
+            column: node.loc.end.column - trail,
+          },
+          end: node.loc.end,
+          range: [node.range[1] - trail, node.range[1]],
+          spaces,
+        });
       },
       optional(node: visitor.AST.OptionalExpression): void {
         check(context, node.expression, node.operator, opts.beforeQuestion);
