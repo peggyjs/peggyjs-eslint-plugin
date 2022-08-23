@@ -51,6 +51,13 @@ ruleTester.run("space-ops", rule, {
     {
       code: "foo = @lab:'1'",
     },
+    {
+      code: `
+{{ const A = 1; }};
+{ const B = 2; };
+foo = '1' { return A * B };
+`,
+    },
   ],
 
   invalid: [
@@ -137,6 +144,23 @@ ruleTester.run("space-ops", rule, {
       ],
       output: "foo = lab:  '1'",
       options: [{ afterColon: -2 }],
+    },
+    {
+      code: `
+{{ const A = 1; }}\t;
+{ const B = 2; } \t;
+foo = '1' { return A * B }   ;
+`,
+      output: `
+{{ const A = 1; }};
+{ const B = 2; };
+foo = '1' { return A * B };
+`,
+      errors: [
+        { messageId: "noSpaces" },
+        { messageId: "noSpaces" },
+        { messageId: "noSpaces" },
+      ],
     },
   ],
 });

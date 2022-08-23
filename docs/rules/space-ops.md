@@ -34,6 +34,7 @@ space), &gt;0 (mandatory number of spaces, unless there is a comment), or
   "beforeColon": 0,
   "beforePlus": 0,
   "beforeQuestion": 0,
+  "beforeSemi": 0,
   "beforeSlash": -1,
   "beforeStar": 0,
 }
@@ -44,7 +45,7 @@ space), &gt;0 (mandatory number of spaces, unless there is a comment), or
 ```peg.js
 // eslint @peggyjs/space-ops
 
-foo = !  ("bar"/"baz")
+foo = !  ("bar"/"baz")  ;
 ```
 
 :+1: Examples of **correct** code for this rule:
@@ -52,7 +53,7 @@ foo = !  ("bar"/"baz")
 ```peg.js
 // eslint @peggyjs/space-ops
 
-foo = !( "bar" / "baz" )
+foo = !( "bar" / "baz" );
 ```
 
 ### Options
