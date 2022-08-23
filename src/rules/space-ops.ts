@@ -106,17 +106,31 @@ const rule: Rule.RuleModule = {
       beforeColon: 0,
       beforePlus: 0,
       beforeQuestion: 0,
+      beforeSemi: 0,
       beforeSlash: -1,
       beforeStar: 0,
       ...context.options[0] as { [id: string]: number },
     };
 
     return makeListener({
+      top_level_initializer(node: visitor.AST.TopLevelInitializer): void {
+        if (node.semi) {
+          check(context, node.close, node.semi, opts.beforeSemi);
+        }
+      },
+      initializer(node: visitor.AST.Initializer): void {
+        if (node.semi) {
+          check(context, node.code.close, node.semi, opts.beforeSemi);
+        }
+      },
       rule(node: visitor.AST.Rule): void {
         const expr = node.expression.type === "named"
           ? node.expression.expression
           : node.expression;
         check(context, node.equals, expr, opts.afterEquals);
+        if (node.semi) {
+          check(context, expr, node.semi, opts.beforeSemi);
+        }
       },
       one_or_more(node: visitor.AST.OneOrMoreExpression): void {
         check(context, node.expression, node.operator, opts.beforePlus);
