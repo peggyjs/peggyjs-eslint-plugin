@@ -58,6 +58,13 @@ ruleTester.run("space-ops", rule, {
 foo = '1' { return A * B };
 `,
     },
+    {
+      code: "foo = '1' { return 4;    }",
+      options: [{ beforeCloseBrace: -1 }],
+    },
+    {
+      code: "{{\n  const A = 1;\n}}\nfoo = '1'",
+    },
   ],
 
   invalid: [
@@ -161,6 +168,37 @@ foo = '1' { return A * B };
         { messageId: "noSpaces" },
         { messageId: "noSpaces" },
       ],
+    },
+    {
+      code: "foo = '1' { return 4;}",
+      output: "foo = '1' { return 4; }",
+      errors: [
+        { messageId: "atLeast" },
+      ],
+    },
+    {
+      code: "foo = '1' { return 4; }",
+      output: "foo = '1' { return 4;}",
+      errors: [
+        { messageId: "noSpaces" },
+      ],
+      options: [{ beforeCloseBrace: 0 }],
+    },
+    {
+      code: "foo = '1' { return 5; }",
+      output: "foo = '1' { return 5;    }",
+      errors: [
+        { messageId: "atLeast" },
+      ],
+      options: [{ beforeCloseBrace: -4 }],
+    },
+    {
+      code: "foo = '1' { return 6;    }",
+      output: "foo = '1' { return 6;  }",
+      errors: [
+        { messageId: "exactSpace" },
+      ],
+      options: [{ beforeCloseBrace: 2 }],
     },
   ],
 });
