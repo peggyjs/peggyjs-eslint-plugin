@@ -1,12 +1,12 @@
-import { makeListener, n } from "../utils";
 import type { Rule } from "eslint";
+import { makeListener } from "../utils";
 import type { visitor } from "@peggyjs/eslint-parser";
 
 function check(
   context: Rule.RuleContext,
   required: boolean,
   before: visitor.AST.Node,
-  semi?: visitor.AST.Punctuation
+  semi?: visitor.AST.Punctuation[]
 ): void {
   if (required) {
     if (!semi) {
@@ -23,14 +23,36 @@ function check(
           ], ";");
         },
       });
+    } else if (semi.length > 1) {
+      const lastSemi = semi[semi.length - 1];
+      context.report({
+        loc: {
+          start: before.loc.end,
+          end: lastSemi.loc.end,
+        },
+        messageId: "prohibited",
+        fix(fixer: Rule.RuleFixer): Rule.Fix {
+          return fixer.replaceTextRange([
+            before.range[1],
+            lastSemi.range[1],
+          ], ";");
+        },
+      });
     }
   } else {
     if (semi) {
+      const lastSemi = semi[semi.length - 1];
       context.report({
-        node: n(semi),
+        loc: {
+          start: before.loc.end,
+          end: lastSemi.loc.end,
+        },
         messageId: "prohibited",
         fix(fixer: Rule.RuleFixer): Rule.Fix {
-          return fixer.remove(n(semi));
+          return fixer.removeRange([
+            before.range[1],
+            lastSemi.range[1],
+          ]);
         },
       });
     }

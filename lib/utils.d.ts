@@ -2,7 +2,7 @@ import type EStree from "estree";
 import type { Rule } from "eslint";
 import type { visitor } from "@peggyjs/eslint-parser";
 export declare function n(node: visitor.AST.Node): EStree.Node;
-declare type VisitorFunction<T extends visitor.AST.Node> = (node: T) => void;
+type VisitorFunction<T extends visitor.AST.Node> = (node: T) => void;
 export interface VisitorFunctionMap {
     Program?: VisitorFunction<visitor.AST.Program>;
     grammar?: VisitorFunction<visitor.AST.Grammar>;
