@@ -54,5 +54,25 @@ ruleTester.run("semi", rule, {
       ],
       options: ["always"],
     },
+    {
+      code: "{{ const A = 1; }};;\n{ const B = 2; };;\nfoo = '1';;",
+      output: "{{ const A = 1; }};\n{ const B = 2; };\nfoo = '1';",
+      errors: [
+        { messageId: "prohibited" },
+        { messageId: "prohibited" },
+        { messageId: "prohibited" },
+      ],
+      options: ["always"],
+    },
+    {
+      code: "{{ const A = 1; }};;\n{ const B = 2; };;\nfoo = '1';;",
+      output: "{{ const A = 1; }}\n{ const B = 2; }\nfoo = '1'",
+      errors: [
+        { messageId: "prohibited" },
+        { messageId: "prohibited" },
+        { messageId: "prohibited" },
+      ],
+      options: ["never"],
+    },
   ],
 });

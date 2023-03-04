@@ -132,13 +132,13 @@ const rule: Rule.RuleModule = {
 
     return makeListener({
       top_level_initializer(node: visitor.AST.TopLevelInitializer): void {
-        if (node.semi) {
-          check(context, node.close, node.semi, opts.beforeSemi);
+        if (node.semi && (node.semi.length > 0)) {
+          check(context, node.close, node.semi[0], opts.beforeSemi);
         }
       },
       initializer(node: visitor.AST.Initializer): void {
-        if (node.semi) {
-          check(context, node.code.close, node.semi, opts.beforeSemi);
+        if (node.semi && (node.semi.length > 0)) {
+          check(context, node.code.close, node.semi[0], opts.beforeSemi);
         }
       },
       rule(node: visitor.AST.Rule): void {
@@ -146,8 +146,8 @@ const rule: Rule.RuleModule = {
           ? node.expression.expression
           : node.expression;
         check(context, node.equals, expr, opts.afterEquals);
-        if (node.semi) {
-          check(context, expr, node.semi, opts.beforeSemi);
+        if (node.semi && (node.semi.length > 0)) {
+          check(context, expr, node.semi[0], opts.beforeSemi);
         }
       },
       action(node: visitor.AST.ActionExpression): void {
