@@ -67,6 +67,7 @@ module.exports = {
 | [@peggyjs/no-unused-rules](./docs/rules/no-unused-rules.md) | All rules except for the first one must be referenced by another rule. | ⭐️ |
 | [@peggyjs/quotes](./docs/rules/quotes.md) | Enforce the consistent use of double or single quotes. | ✒️ ⭐️ |
 | [@peggyjs/rule-order](./docs/rules/rule-order.md) | Rule definitions should come after all references to that rule, unless there is a rule loop. |  |
+| [@peggyjs/semi](./docs/rules/semi.md) | Enforce consistent semicolon usage. | ✒️ ⭐️ |
 | [@peggyjs/semantic-predicate-must-return](./docs/rules/semantic-predicate-must-return.md) | Semantic predicates must have a return statement. | ⭐️ |
 | [@peggyjs/separate-choices](./docs/rules/separate-choices.md) | Ensure that each top-level choice in a rule is on a new line. | ✒️ ⭐️ |
 | [@peggyjs/space-ops](./docs/rules/space-ops.md) | Consistent spacing around operators and other punctuation. | ✒️ ⭐️ |
