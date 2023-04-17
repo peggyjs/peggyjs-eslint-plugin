@@ -12,3 +12,4 @@ src/
 test/
 tsconfig.json
 .mocharc.js
+pnpm-lock.yaml

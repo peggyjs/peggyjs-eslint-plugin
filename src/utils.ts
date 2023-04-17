@@ -1,4 +1,4 @@
-import type EStree from "estree";
+import type * as EStree from "estree";
 import type { Rule } from "eslint";
 import fs from "fs";
 import path from "path";

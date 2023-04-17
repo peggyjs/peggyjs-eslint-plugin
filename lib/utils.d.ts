@@ -1,4 +1,4 @@
-import type EStree from "estree";
+import type * as EStree from "estree";
 import type { Rule } from "eslint";
 import type { visitor } from "@peggyjs/eslint-parser";
 export declare function n(node: visitor.AST.Node): EStree.Node;
