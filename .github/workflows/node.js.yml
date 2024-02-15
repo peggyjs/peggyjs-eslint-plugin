@@ -27,7 +27,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
       - name: Install dependencies
-        run: npm install && cd examples && npm install
+        run: pnpm i -r
       - name: Test
         run: npm run coverage
       - name: Check coding standards
