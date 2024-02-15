@@ -8,7 +8,7 @@
     "precoverage": "npm run build:sourcemap",
     "coverage": "c8 npm test",
     "postcoverage": "npm run build",
-    "lint": "eslint . --ext peggy,js,ts",
+    "lint": "eslint .",
     "build": "tsc",
     "build:sourcemap": "tsc --inlineSourceMap"
   },
@@ -28,7 +28,7 @@
   "repository": "peggyjs/peggyjs-eslint-plugin",
   "bugs": "https://github.com/peggyjs/peggyjs-eslint-plugin/issues",
   "devDependencies": {
-    "@peggyjs/eslint-config": "3.2.1",
+    "@peggyjs/eslint-config": "3.2.2",
     "@peggyjs/eslint-parser": "^2.0.1",
     "@types/debug": "4.1.12",
     "@types/eslint": "8.56.2",
@@ -46,9 +46,10 @@
     "typescript": "5.3.3"
   },
   "peerDependencies": {
-    "@peggyjs/eslint-parser": "^1.2.1",
-    "eslint": ">=8.38.0"
+    "@peggyjs/eslint-parser": "^2.0.1",
+    "eslint": ">=8.56.0"
   },
+  "packageManager": "pnpm@8.15.3",
   "engines": {
     "node": ">=14.20"
   }
