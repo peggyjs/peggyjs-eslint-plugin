@@ -12,7 +12,7 @@ dependencies:
 devDependencies:
   '@peggyjs/eslint-config':
     specifier: 3.2.2
-    version: 3.2.2(@typescript-eslint/eslint-plugin@7.0.1)(@typescript-eslint/parser@7.0.1)(eslint-plugin-mocha@10.2.0)(eslint@8.56.0)(typescript@5.3.3)
+    version: 3.2.2(@typescript-eslint/eslint-plugin@7.0.1)(@typescript-eslint/parser@7.0.1)(eslint-plugin-mocha@10.3.0)(eslint@8.56.0)(typescript@5.3.3)
   '@peggyjs/eslint-parser':
     specifier: ^2.0.1
     version: 2.0.1
@@ -47,8 +47,8 @@ devDependencies:
     specifier: 5.3.0
     version: 5.3.0(eslint@8.56.0)
   eslint-plugin-mocha:
-    specifier: 10.2.0
-    version: 10.2.0(eslint@8.56.0)
+    specifier: 10.3.0
+    version: 10.3.0(eslint@8.56.0)
   mocha:
     specifier: 10.3.0
     version: 10.3.0
@@ -169,7 +169,7 @@ packages:
       fastq: 1.17.1
     dev: true
 
-  /@peggyjs/eslint-config@3.2.2(@typescript-eslint/eslint-plugin@7.0.1)(@typescript-eslint/parser@7.0.1)(eslint-plugin-mocha@10.2.0)(eslint@8.56.0)(typescript@5.3.3):
+  /@peggyjs/eslint-config@3.2.2(@typescript-eslint/eslint-plugin@7.0.1)(@typescript-eslint/parser@7.0.1)(eslint-plugin-mocha@10.3.0)(eslint@8.56.0)(typescript@5.3.3):
     resolution: {integrity: sha512-Yq/gJqRmBijpTj90aLkO4oUNIKc3Vt6V/PB9ck8fntUgWSVWsz4F4c0z8rR+c7Ivq+r1ivtmzoY9qpCnRDLVcw==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -192,7 +192,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 7.0.1(@typescript-eslint/parser@7.0.1)(eslint@8.56.0)(typescript@5.3.3)
       '@typescript-eslint/parser': 7.0.1(eslint@8.56.0)(typescript@5.3.3)
       eslint: 8.56.0
-      eslint-plugin-mocha: 10.2.0(eslint@8.56.0)
+      eslint-plugin-mocha: 10.3.0(eslint@8.56.0)
       globals: 14.0.0
       typescript: 5.3.3
     transitivePeerDependencies:
@@ -772,8 +772,8 @@ packages:
       estraverse: 5.3.0
     dev: true
 
-  /eslint-plugin-mocha@10.2.0(eslint@8.56.0):
-    resolution: {integrity: sha512-ZhdxzSZnd1P9LqDPF0DBcFLpRIGdh1zkF2JHnQklKQOvrQtT73kdP5K9V2mzvbLR+cCAO9OI48NXK/Ax9/ciCQ==}
+  /eslint-plugin-mocha@10.3.0(eslint@8.56.0):
+    resolution: {integrity: sha512-IWzbg2K6B1Q7h37Ih4zMyW+nhmw1JvUlHlbCUUUu6PfOOAUGCB0gxmvv7/U+TQQ6e8yHUv+q7KMdIIum4bx+PA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       eslint: '>=7.0.0'

@@ -28,6 +28,18 @@ ruleTester.run("quotes", rule, {
       code: 'Foo "\'" = "\'"',
       options: [{ style: "single", avoidEscape: true }],
     },
+    {
+      code: `\
+import foo from "foo";
+bar = foo`,
+      options: ["double"],
+    },
+    {
+      code: `\
+import {"bar" as foo} from "foo";
+bar = foo`,
+      options: ["double"],
+    },
   ],
 
   invalid: [
@@ -70,6 +82,26 @@ ruleTester.run("quotes", rule, {
       options: [{ style: "single", avoidEscape: false }],
       errors: [{ messageId: "wrongQuotes" }],
       output: "Foo = '\\''",
+    },
+    {
+      code: `\
+import foo from 'foo';
+bar = foo`,
+      options: ["double"],
+      errors: [{ messageId: "wrongQuotes" }],
+      output: `\
+import foo from "foo";
+bar = foo`,
+    },
+    {
+      code: `\
+import {'bar' as foo} from "foo";
+bar = foo`,
+      options: ["double"],
+      errors: [{ messageId: "wrongQuotes" }],
+      output: `\
+import {"bar" as foo} from "foo";
+bar = foo`,
     },
   ],
 });

@@ -6,7 +6,11 @@ function checkQuotes(
   context: Rule.RuleContext,
   style: "double" | "single",
   avoidEscape: boolean,
-  node: visitor.AST.DisplayName | visitor.AST.LiteralExpression
+  node:
+    | visitor.AST.DisplayName
+    | visitor.AST.ImportModuleSpecifier
+    | visitor.AST.LiteralExpression
+    | visitor.AST.ModuleExportName
 ): void {
   if (style === "double") {
     if (node.before.value !== '"') {
@@ -102,6 +106,12 @@ const rule: Rule.RuleModule = {
         checkQuotes(context, opts.style, opts.avoidEscape, node);
       },
       literal(node: visitor.AST.LiteralExpression): void {
+        checkQuotes(context, opts.style, opts.avoidEscape, node);
+      },
+      import_module_specifier(node: visitor.AST.ImportModuleSpecifier): void {
+        checkQuotes(context, opts.style, opts.avoidEscape, node);
+      },
+      module_export_name(node: visitor.AST.ModuleExportName): void {
         checkQuotes(context, opts.style, opts.avoidEscape, node);
       },
     });
