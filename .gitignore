@@ -2,4 +2,3 @@ coverage/
 node_modules/
 examples/node_modules/
 .vscode/
-pnpm-lock.yaml

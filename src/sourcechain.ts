@@ -32,7 +32,7 @@ export enum Bias {
    * If the position specified is in boilerplate text, return the end of the
    * *next* non-boilerplate block.
    */
-   GREATEST_LOWER_BOUND = 1,
+  GREATEST_LOWER_BOUND = 1,
 }
 
 /**
