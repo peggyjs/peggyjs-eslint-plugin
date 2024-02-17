@@ -15,11 +15,66 @@ foo = bar
 bar = "1"
 `,
     },
+    {
+      code: `
+import * as bar from "bar"
+foo = bar.foo`,
+    },
+    {
+      code: `
+import bar from 'bar'
+foo = bar`,
+    },
+    {
+      code: `
+import {bar} from 'bar'
+foo = bar`,
+    },
+    {
+      code: `
+import {foo as bar} from 'bar'
+foo = bar`,
+    },
+    {
+      code: `
+import {"foo" as bar} from 'bar'
+foo = bar`,
+    },
   ],
   invalid: [
     {
       code: "foo = '1'\nbar = '2'",
       errors: [{ messageId: "unused" }],
+    },
+    {
+      code: `
+        import * as bar from "bar"
+        foo = bart.foo`,
+      errors: [{ messageId: "unusedImport" }],
+    },
+    {
+      code: `
+        import bar from "bar"
+        foo = "1"`,
+      errors: [{ messageId: "unusedImport" }],
+    },
+    {
+      code: `
+        import {bar} from "bar"
+        foo = "1"`,
+      errors: [{ messageId: "unusedImport" }],
+    },
+    {
+      code: `
+        import {foo as bar} from "bar"
+        foo = "1"`,
+      errors: [{ messageId: "unusedImport" }],
+    },
+    {
+      code: `
+        import {"foo" as bar} from "bar"
+        foo = "1"`,
+      errors: [{ messageId: "unusedImport" }],
     },
   ],
 });
