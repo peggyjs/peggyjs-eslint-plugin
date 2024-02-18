@@ -14,8 +14,8 @@ devDependencies:
     specifier: 3.2.2
     version: 3.2.2(@typescript-eslint/eslint-plugin@7.0.1)(@typescript-eslint/parser@7.0.1)(eslint-plugin-mocha@10.3.0)(eslint@8.56.0)(typescript@5.3.3)
   '@peggyjs/eslint-parser':
-    specifier: ^2.0.1
-    version: 2.0.1
+    specifier: ^2.0.2
+    version: 2.0.2
   '@types/debug':
     specifier: 4.1.12
     version: 4.1.12
@@ -199,8 +199,8 @@ packages:
       - supports-color
     dev: true
 
-  /@peggyjs/eslint-parser@2.0.1:
-    resolution: {integrity: sha512-ysieGwtXrGAs53jZOXLT/ZKCWasQHbSBIJL+zJJdxpvc4i+DEVK2FLPTrr/ln6T68ErPqeAX2IIiXp+Wkrdu2Q==}
+  /@peggyjs/eslint-parser@2.0.2:
+    resolution: {integrity: sha512-Zow4uAH9b1o1bd9hvSK41K4hHxEcwWi1pr+2CStuzp7jEXS+If8/rVadnCiVf2RF8m1jdbyORroyDlRfD8wLwg==}
     engines: {node: '>=18'}
     dev: true
 
