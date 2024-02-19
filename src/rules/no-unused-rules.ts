@@ -28,24 +28,16 @@ const rule: Rule.RuleModule = {
     const importRefs = new Set<string>();
     return makeListener({
       import_binding(node: visitor.AST.ImportBinding): void {
-        if (node.binding.id) {
-          imports.set(node.binding.id.value, node);
-        }
+        imports.set(node.binding.id.value, node);
       },
       import_binding_all(node: visitor.AST.ImportBindingAll): void {
-        if (node.binding.id) {
-          imports.set(node.binding.id.value, node);
-        }
+        imports.set(node.binding.id.value, node);
       },
       import_binding_default(node: visitor.AST.ImportBindingDefault): void {
-        if (node.binding.id) {
-          imports.set(node.binding.id.value, node);
-        }
+        imports.set(node.binding.id.value, node);
       },
       import_binding_rename(node: visitor.AST.ImportBindingRename) {
-        if (node.binding.id) {
-          imports.set(node.binding.id.value, node);
-        }
+        imports.set(node.binding.id.value, node);
       },
       rule(node: visitor.AST.Rule): void {
         if (rules.size === 0) {
