@@ -1,4 +1,5 @@
 # @peggyjs/no-empty-initializers
+
 > Top-level and per-instance initializers should not be empty.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
 > - ✒️ This rule will fix all errors it finds.
@@ -55,4 +56,4 @@ foo = "1" { return loc({ type: "foo" }); }
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/no-empty-initializers.ts)
-- [Test source](../../test/lib/rules/no-empty-initializers.js)
+- [Test source](../../test/rules/no-empty-initializers.test.js)

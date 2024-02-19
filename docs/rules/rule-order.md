@@ -1,4 +1,5 @@
 # @peggyjs/rule-order
+
 > Rule definitions should come after all references to that rule, unless there
 > is a rule loop.
 
@@ -36,4 +37,4 @@ Boo = Foo // Loop ok
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/rule-order.ts)
-- [Test source](../../test/lib/rules/rule-order.js)
+- [Test source](../../test/rules/rule-order.test.js)

@@ -1,4 +1,5 @@
 # @peggyjs/no-unused-rules
+
 > All rules except for the first one must be referenced by another rule.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
 
@@ -12,7 +13,7 @@ might be caused by typos, or they may be left over from previous versions.
 
 ```peg.js
 // eslint @peggyjs/no-unused-rules
-
+import baz from "./baz.js" // Bad.  Not referenced.
 foo = "1" // Good.  Default entry point.
 bar = "2" // Bad.  Not referenced.
 ```
@@ -21,12 +22,12 @@ bar = "2" // Bad.  Not referenced.
 
 ```peg.js
 // eslint @peggyjs/no-unused-rules
-
-foo = bar
+import baz from "./baz.js"
+foo = bar / baz
 bar = "2"
 ```
 
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/no-unused-rules.ts)
-- [Test source](../../test/lib/rules/no-unused-rules.js)
+- [Test source](../../test/rules/no-unused-rules.test.js)

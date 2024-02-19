@@ -15,7 +15,7 @@ const rule: Rule.RuleModule = {
   meta: {
     type: "problem",
     docs: {
-      description: "Ensure imports point to valid js files that have the right format and export the expected rules.",
+      description: "All imports must point to correct JS files, compiled by Peggy 4.0.0 or later, which export the expected rule name as an allowedStartRule.",
       recommended: true,
       url: "https://github.com/peggyjs/peggyjs-eslint-plugin/blob/main/docs/rules/valid-imports.md",
     },

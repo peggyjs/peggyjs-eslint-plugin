@@ -1,4 +1,5 @@
 # @peggyjs/separate-choices
+
 > Ensure that each top-level choice in a rule is on a new line.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
 > - ✒️ This rule will fix all errors it finds.
@@ -33,4 +34,4 @@ See [Settings](../settings.md).
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/separate-choices.ts)
-- [Test source](../../test/lib/rules/separate-choices.js)
+- [Test source](../../test/rules/separate-choices.test.js)

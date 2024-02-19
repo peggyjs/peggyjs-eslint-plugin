@@ -1,4 +1,5 @@
 # @peggyjs/semantic-predicate-must-return
+
 > Top-level and per-instance initializers should not be empty.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
 
@@ -40,4 +41,4 @@ foo = n:"1" !{ return n === "2"; }
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/semantic-predicate-must-return.ts)
-- [Test source](../../test/lib/rules/semantic-predicate-must-return.js)
+- [Test source](../../test/rules/semantic-predicate-must-return.test.js)

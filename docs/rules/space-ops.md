@@ -1,4 +1,5 @@
 # @peggyjs/space-ops
+
 > Consistent spacing around operators and other punctuation.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
 > - ✒️ This rule will fix all errors it finds.
@@ -66,4 +67,4 @@ The value is a number (see above for meaning).
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/space-ops.ts)
-- [Test source](../../test/lib/rules/space-ops.js)
+- [Test source](../../test/rules/space-ops.test.js)

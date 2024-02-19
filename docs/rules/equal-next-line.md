@@ -1,4 +1,5 @@
 # @peggyjs/equal-next-line
+
 > Ensure that the equals sign in a rule is in a consistent location.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
 > - ✒️ This rule will fix all errors it finds.
@@ -87,4 +88,4 @@ See [Settings](../settings.md).
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/equal-next-line.ts)
-- [Test source](../../test/lib/rules/equal-next-line.js)
+- [Test source](../../test/rules/equal-next-line.test.js)

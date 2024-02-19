@@ -1,4 +1,5 @@
 # @peggyjs/quotes
+
 > Enforce the consistent use of double or single quotes.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
 > - ✒️ This rule will fix all errors it finds.
@@ -26,8 +27,8 @@ Foo 'Frequently Observed Ocelot' = "bar"
 
 ```peg.js
 // eslint @peggyjs/quotes: ["error", "double"]
-
-Foo "More Ocelots" = "bar"
+import {"boo" as bar} from "bar.js"
+Foo "More Ocelots" = "bar" / boo
 ```
 
 ```peg.js
@@ -67,4 +68,4 @@ there are no exceptions.
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/quotes.ts)
-- [Test source](../../test/lib/rules/quotes.js)
+- [Test source](../../test/rules/quotes.test.js)
