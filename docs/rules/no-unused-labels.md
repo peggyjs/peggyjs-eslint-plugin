@@ -1,4 +1,5 @@
 # @peggyjs/no-unused-rules
+
 > Labels may not be used without either an action or a semantic predicate to
 > reference them.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
@@ -34,4 +35,4 @@ bar = n:"1" &{ return n === "1"; }
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/no-unused-labels.ts)
-- [Test source](../../test/lib/rules/no-unused-labels.js)
+- [Test source](../../test/rules/no-unused-labels.test.js)

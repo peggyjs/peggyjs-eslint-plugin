@@ -1,0 +1,8 @@
+{
+  "eslint.validate": [
+    "javascript",
+    "peggy",
+    "typescript"
+  ],
+  "eslint.experimental.useFlatConfig": true
+}

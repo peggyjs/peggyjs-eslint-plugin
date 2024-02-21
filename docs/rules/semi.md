@@ -1,4 +1,5 @@
 # @peggyjs/semi
+
 > Enforce consistent use of semicolons
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
 > - ✒️ This rule will fix errors.
@@ -42,5 +43,5 @@ foo = "bar"
 
 ## 🔎 Implementation
 
-- [Rule source](../../src/rules/camelCase.ts)
-- [Test source](../../test/lib/rules/camelCase.js)
+- [Rule source](../../src/rules/semi.ts)
+- [Test source](../../test/rules/semi.test.js)

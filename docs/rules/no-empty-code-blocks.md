@@ -1,4 +1,5 @@
 # @peggyjs/no-empty-code-blocks
+
 > Code blocks should not be empty.
 > - ⭐️ This rule is included in `plugin:@peggyjs/recommended` preset.
 > - ✒️ This rule will fix all errors it finds.
@@ -43,4 +44,4 @@ bar = !{ return false; } "1"
 ## 🔎 Implementation
 
 - [Rule source](../../src/rules/no-empty-code-blocks.ts)
-- [Test source](../../test/lib/rules/no-empty-code-blocks.js)
+- [Test source](../../test/rules/no-empty-code-blocks.test.js)

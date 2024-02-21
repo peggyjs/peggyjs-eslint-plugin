@@ -1,4 +1,13 @@
 import type ESlint from "eslint";
+import { default as prules } from "../allRules.js";
+
+const rules: ESlint.Linter.RulesRecord = Object.fromEntries(
+  Object.entries(prules)
+    .filter(([, r]) => r.meta?.docs?.recommended)
+    .map(([k]) => [`@peggyjs/${k}`, "error"])
+);
+// The processor will not receive a Unicode Byte Order Mark.
+rules["unicode-bom"] = "off";
 
 const config: ESlint.ESLint.ConfigData = {
   plugins: ["@peggyjs"],
@@ -10,16 +19,9 @@ const config: ESlint.ESLint.ConfigData = {
         "@peggyjs/indent": 2,
         "@peggyjs/newline": "\n",
       },
-      rules: {},
-    },
-    {
-      files: ["**/*.peggy/*.js", "**/*.pegjs/*.js"],
-      rules: {
-        // The processor will not receive a Unicode Byte Order Mark.
-        "unicode-bom": "off",
-      },
+      rules,
     },
   ],
 };
 
-export default config;
+export = config;
