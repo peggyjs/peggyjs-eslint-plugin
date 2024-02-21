@@ -1,6 +1,6 @@
 import { CachedInputFileSystem, ResolverFactory } from "enhanced-resolve";
-import type { Rule } from "eslint";
 import { makeListener, n } from "../utils";
+import type { Rule } from "eslint";
 import nfs from "node:fs";
 import path from "node:path";
 import type { visitor } from "@peggyjs/eslint-parser";
