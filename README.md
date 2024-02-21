@@ -72,6 +72,21 @@ module.exports = {
 };
 ```
 
+## VSCode
+
+If you are using VSCode, you might be interested in these for your `.vscode/settings.json` file:
+
+```json
+{
+  "eslint.validate": [
+    "javascript",
+    "peggy",
+    "typescript"
+  ],
+  "eslint.experimental.useFlatConfig": true
+}
+```
+
 ## Rules
 
 - ✒️ - Fixable rules.
