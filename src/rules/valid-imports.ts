@@ -1,6 +1,6 @@
 import { CachedInputFileSystem, ResolverFactory } from "enhanced-resolve";
 import type { Rule } from "eslint";
-import { makeListener } from "../utils";
+import { makeListener, n } from "../utils";
 import nfs from "node:fs";
 import path from "node:path";
 import type { visitor } from "@peggyjs/eslint-parser";
@@ -60,10 +60,7 @@ const rule: Rule.RuleModule = {
         }
         if (!contents) {
           context.report({
-            loc: {
-              start: node.before.loc.end,
-              end: node.after.loc.start,
-            },
+            node: n(node),
             messageId: "importNotFound",
             data: {
               import: node.value,
@@ -76,10 +73,7 @@ const rule: Rule.RuleModule = {
         const parse = contents.match(hasExports);
         if (!parse) {
           context.report({
-            loc: {
-              start: node.before.loc.end,
-              end: node.after.loc.start,
-            },
+            node: n(node),
             messageId: "importNotParser",
             data: {
               import: node.value,
@@ -97,10 +91,7 @@ const rule: Rule.RuleModule = {
         }
         if (!startRules) {
           context.report({
-            loc: {
-              start: node.before.loc.end,
-              end: node.after.loc.start,
-            },
+            node: n(node),
             messageId: "importBadVersion",
             data: {
               import: node.value,
@@ -119,10 +110,7 @@ const rule: Rule.RuleModule = {
             || mods.length === 0
             || mods.some(v => (typeof v !== "string") || (v.length === 0))) {
           context.report({
-            loc: {
-              start: node.before.loc.end,
-              end: node.after.loc.start,
-            },
+            node: n(node),
             messageId: "importNotParser",
             data: {
               import: node.value,
@@ -144,7 +132,7 @@ const rule: Rule.RuleModule = {
             case "import_binding":
               if (!mods.has(what.binding.id.value)) {
                 context.report({
-                  loc: what.binding.id.loc,
+                  node: n(what.binding.id),
                   messageId: "importBadExport",
                   data: {
                     "import": node.from.value,
@@ -157,7 +145,7 @@ const rule: Rule.RuleModule = {
               // Leave this to the library_ref rule
               if (libs[what.binding.id.value]) {
                 context.report({
-                  loc: what.binding.id.loc,
+                  node: n(what.binding.id),
                   messageId: "importDuplicate",
                   data: {
                     "import": node.from.value,
@@ -174,7 +162,7 @@ const rule: Rule.RuleModule = {
             case "import_binding_rename": {
               if (!mods.has(what.rename.value)) {
                 context.report({
-                  loc: what.binding.id.loc,
+                  node: n(what.binding.id),
                   messageId: "importBadExport",
                   data: {
                     "import": node.from.value,
@@ -191,7 +179,7 @@ const rule: Rule.RuleModule = {
         const mods = libs[node.library.value];
         if (!mods) {
           context.report({
-            loc: node.library.loc,
+            node: n(node.library),
             messageId: "importNameNotFound",
             data: {
               "export": node.library.value,
@@ -199,7 +187,7 @@ const rule: Rule.RuleModule = {
           });
         } else if (!mods.has(node.name.value)) {
           context.report({
-            loc: node.name.loc,
+            node: n(node.name),
             messageId: "importNameNotFound",
             data: {
               name: node.name.value,

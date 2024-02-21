@@ -6,9 +6,6 @@ const RuleTester = require("eslint").RuleTester;
 const filename = __filename;
 const ruleTester = new RuleTester({
   parser: require.resolve("@peggyjs/eslint-parser"),
-  settings: {
-    "import/resolver": "node",
-  },
 });
 
 ruleTester.run("valid-imports", rule, {
@@ -22,21 +19,21 @@ ruleTester.run("valid-imports", rule, {
     },
     {
       code: `
-      import {foo} from "./fixtures/foo.mjs"
-      bar = foo
+      import {Foo} from "./fixtures/foo.mjs"
+      bar = Foo
       `,
       filename,
     },
     {
       code: `
-      import {foo as foot} from "./fixtures/foo.mjs"
+      import {Foo as foot} from "./fixtures/foo.mjs"
       bar = foot
       `,
       filename,
     },
     {
       code: `
-      import {"foo" as foot} from "./fixtures/foo.mjs"
+      import {"Foo" as foot} from "./fixtures/foo.mjs"
       bar = foot
       `,
       filename,
@@ -44,7 +41,7 @@ ruleTester.run("valid-imports", rule, {
     {
       code: `
       import * as f from "./fixtures/foo.mjs"
-      bar = f.foo
+      bar = f.Foo
       `,
       filename,
     },
@@ -118,7 +115,7 @@ ruleTester.run("valid-imports", rule, {
       code: `
       import * as f from "./fixtures/foo.mjs"
       import * as f from "./fixtures/foo.cjs"
-      bar = f.foo
+      bar = f.Foo
       `,
       filename,
       errors: [{ messageId: "importDuplicate" }],
@@ -126,7 +123,7 @@ ruleTester.run("valid-imports", rule, {
     {
       code: `
       import * as f from "./fixtures/foo.mjs"
-      bar = g.foo
+      bar = g.Foo
       `,
       filename,
       errors: [{ messageId: "importNameNotFound" }],
@@ -134,7 +131,7 @@ ruleTester.run("valid-imports", rule, {
     {
       code: `
       import * as f from "./fixtures/foo.mjs"
-      bar = f.foot
+      bar = f.Foot
       `,
       filename,
       errors: [{ messageId: "importNameNotFound" }],
@@ -142,7 +139,7 @@ ruleTester.run("valid-imports", rule, {
     {
       code: `
       import * as f from "./fixtures/badAllowed.mjs"
-      bar = f.foo
+      bar = f.Foo
       `,
       filename,
       errors: [{ messageId: "importNotParser" }, { messageId: "importNameNotFound" }],
@@ -150,7 +147,7 @@ ruleTester.run("valid-imports", rule, {
     {
       code: `
       import * as f from "./fixtures/badAllowed2.mjs"
-      bar = f.foo
+      bar = f.Foo
       `,
       filename,
       errors: [{ messageId: "importNotParser" }, { messageId: "importNameNotFound" }],

@@ -1,6 +1,5 @@
 "use strict";
-// Not yet
-// const pp = require("./");
+
 const globals = require("@peggyjs/eslint-config/flat/globals");
 
 module.exports = [
@@ -17,17 +16,12 @@ module.exports = [
   require("@peggyjs/eslint-config/flat/mjs"),
   {
     ...require("@peggyjs/eslint-config/flat/mocha"),
+    files: ["test/**/*.js"],
     languageOptions: {
       globals: { ...globals.node, ...globals.mocha },
       ecmaVersion: 2020,
     },
   },
   require("@peggyjs/eslint-config/flat/ts"),
-  // {
-  //   files: ["*.peggy", "*.pegjs"],
-  //   plugin: {
-  //     "@peggyjs": pp,
-  //   },
-  //   rules: pp.configs.recommended.overrides[0].rules,
-  // },
+  require("./lib/flat/all.js"),
 ];

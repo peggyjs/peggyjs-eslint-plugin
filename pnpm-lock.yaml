@@ -17,8 +17,8 @@ devDependencies:
     specifier: 3.2.2
     version: 3.2.2(@typescript-eslint/eslint-plugin@7.0.2)(@typescript-eslint/parser@7.0.2)(eslint-plugin-mocha@10.3.0)(eslint@8.56.0)(typescript@5.3.3)
   '@peggyjs/eslint-parser':
-    specifier: ^2.0.3
-    version: 2.0.3
+    specifier: ^2.0.4
+    version: 2.0.4
   '@types/debug':
     specifier: 4.1.12
     version: 4.1.12
@@ -43,6 +43,9 @@ devDependencies:
   c8:
     specifier: 9.1.0
     version: 9.1.0
+  debug:
+    specifier: 4.3.4
+    version: 4.3.4(supports-color@8.1.1)
   eslint:
     specifier: 8.56.0
     version: 8.56.0
@@ -202,8 +205,8 @@ packages:
       - supports-color
     dev: true
 
-  /@peggyjs/eslint-parser@2.0.3:
-    resolution: {integrity: sha512-OHyNiGP8w4srrSE4e++l0lUKkZIWW/rCUkEZm3mR4Gt1HSidAq/g/fpysQTlI5D01vuBKnKctG8IgbYEIlStDw==}
+  /@peggyjs/eslint-parser@2.0.4:
+    resolution: {integrity: sha512-e3SaXEzbY/JcUxjcOG5OK7Z76XK8JJUyZkHQTheNtxu/9CwZvxDxPJneREh8IzYBv9M2hwVcOZbffKIz/wvKJQ==}
     engines: {node: '>=18'}
     dev: true
 
@@ -965,7 +968,7 @@ packages:
     resolution: {integrity: sha512-CYcENa+FtcUKLmhhqyctpclsq7QF38pKjZHsGNiSQF5r4FtoKDWabFDl3hzaEQMvT1LHEysw5twgLvpYYb4vbw==}
     engines: {node: ^10.12.0 || >=12.0.0}
     dependencies:
-      flatted: 3.2.9
+      flatted: 3.3.0
       keyv: 4.5.4
       rimraf: 3.0.2
     dev: true
@@ -975,8 +978,8 @@ packages:
     hasBin: true
     dev: true
 
-  /flatted@3.2.9:
-    resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
+  /flatted@3.3.0:
+    resolution: {integrity: sha512-noqGuLw158+DuD9UPRKHpJ2hGxpFyDlYYrfM0mWt4XhT4n0lwzTLh70Tkdyy4kyTmyTT9Bv7bWAJqw7cgkEXDg==}
     dev: true
 
   /foreground-child@3.1.1:

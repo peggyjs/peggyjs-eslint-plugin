@@ -174,8 +174,8 @@ function peg$parse(input, options) {
   var peg$FAILED = {};
   var peg$source = options.grammarSource;
 
-  var peg$startRuleFunctions = { foo: peg$parsefoo };
-  var peg$startRuleFunction = peg$parsefoo;
+  var peg$startRuleFunctions = { Foo: peg$parseFoo };
+  var peg$startRuleFunction = peg$parseFoo;
 
   var peg$c0 = "foo";
 
@@ -344,7 +344,7 @@ function peg$parse(input, options) {
     );
   }
 
-  function peg$parsefoo() {
+  function peg$parseFoo() {
     var s0;
 
     if (input.substr(peg$currPos, 3) === peg$c0) {
@@ -387,7 +387,7 @@ function peg$parse(input, options) {
 }
 
 module.exports = {
-  StartRules: ["foo"],
+  StartRules: ["Foo"],
   SyntaxError: peg$SyntaxError,
   parse: peg$parse
 };

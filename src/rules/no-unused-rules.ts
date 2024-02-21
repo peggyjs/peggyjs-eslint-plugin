@@ -17,27 +17,22 @@ const rule: Rule.RuleModule = {
     schema: [],
   },
   create(context: Rule.RuleContext): Rule.RuleListener {
-    const imports = new Map<string,
-      | visitor.AST.ImportBinding
-      | visitor.AST.ImportBindingAll
-      | visitor.AST.ImportBindingDefault
-      | visitor.AST.ImportBindingRename
-    >();
+    const imports = new Map<string, visitor.AST.Name>();
     const rules = new Map<string, visitor.AST.Rule>();
     const refs = new Set<string>();
     const importRefs = new Set<string>();
     return makeListener({
       import_binding(node: visitor.AST.ImportBinding): void {
-        imports.set(node.binding.id.value, node);
+        imports.set(node.binding.id.value, node.binding.id);
       },
       import_binding_all(node: visitor.AST.ImportBindingAll): void {
-        imports.set(node.binding.id.value, node);
+        imports.set(node.binding.id.value, node.binding.id);
       },
       import_binding_default(node: visitor.AST.ImportBindingDefault): void {
-        imports.set(node.binding.id.value, node);
+        imports.set(node.binding.id.value, node.binding.id);
       },
       import_binding_rename(node: visitor.AST.ImportBindingRename) {
-        imports.set(node.binding.id.value, node);
+        imports.set(node.binding.id.value, node.binding.id);
       },
       rule(node: visitor.AST.Rule): void {
         if (rules.size === 0) {

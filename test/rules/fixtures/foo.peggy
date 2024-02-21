@@ -1,1 +1,1 @@
-foo = "foo"
+Foo = "foo"
