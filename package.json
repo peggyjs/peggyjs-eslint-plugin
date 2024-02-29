@@ -25,8 +25,7 @@
   "author": "Joe Hildebrand <joe-github@cursive.net>",
   "license": "MIT",
   "dependencies": {
-    "@peggyjs/from-mem": "1.2.1",
-    "enhanced-resolve": "5.15.0"
+    "enhanced-resolve": "5.15.1"
   },
   "repository": "peggyjs/peggyjs-eslint-plugin",
   "bugs": "https://github.com/peggyjs/peggyjs-eslint-plugin/issues",
@@ -34,9 +33,9 @@
     "@peggyjs/eslint-config": "3.2.4",
     "@peggyjs/eslint-parser": "^2.0.6",
     "@types/debug": "4.1.12",
-    "@types/eslint": "8.56.3",
+    "@types/eslint": "8.56.5",
     "@types/estree": "1.0.5",
-    "@types/node": "20.11.20",
+    "@types/node": "20.11.22",
     "@types/requireindex": "1.2.4",
     "@typescript-eslint/eslint-plugin": "7.1.0",
     "@typescript-eslint/parser": "7.1.0",
