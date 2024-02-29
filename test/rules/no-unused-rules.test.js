@@ -40,6 +40,13 @@ foo = bar`,
 import {"foo" as bar} from 'bar'
 foo = bar`,
     },
+    {
+      options: [{ filter: "^_" }],
+      code: `
+foo = _bar
+baz = "boo"
+_bar = "bar"`,
+    },
   ],
   invalid: [
     {
@@ -75,6 +82,15 @@ foo = bar`,
         import {"foo" as bar} from "bar"
         foo = "1"`,
       errors: [{ messageId: "unusedImport" }],
+    },
+    {
+      options: [{ filter: "^_" }],
+      code: `
+foo = _bar
+baz = "boo"
+_bar = "bar"
+_boo = "boo"`,
+      errors: [{ messageId: "unused" }],
     },
   ],
 });
