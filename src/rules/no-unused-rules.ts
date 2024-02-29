@@ -14,13 +14,26 @@ const rule: Rule.RuleModule = {
       unused: "Rule '{{ name }}' is never used.",
       unusedImport: "Library import '{{ name }}' is never used.",
     },
-    schema: [],
+    schema: [
+      {
+        type: "object",
+        properties: {
+          filter: {
+            type: "string",
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
   },
   create(context: Rule.RuleContext): Rule.RuleListener {
     const imports = new Map<string, visitor.AST.Name>();
     const rules = new Map<string, visitor.AST.Rule>();
     const refs = new Set<string>();
     const importRefs = new Set<string>();
+    const filter = context.options[0]?.filter;
+    const match = filter ? new RegExp(filter) : undefined;
+
     return makeListener({
       import_binding(node: visitor.AST.ImportBinding): void {
         imports.set(node.binding.id.value, node.binding.id);
@@ -52,7 +65,11 @@ const rule: Rule.RuleModule = {
           rules.delete(name);
           imports.delete(name);
         }
+
         for (const [name, r] of rules) {
+          if (match && !match.test(name)) {
+            continue;
+          }
           context.report({
             node: n(r),
             messageId: "unused",

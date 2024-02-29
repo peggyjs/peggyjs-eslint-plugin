@@ -18,6 +18,13 @@ foo = "1" // Good.  Default entry point.
 bar = "2" // Bad.  Not referenced.
 ```
 
+```peg.js
+// eslint @peggyjs/no-unused-rules: ["error", {filter: "^_"}]
+foo = "foo" // Good.
+bar = "bar" // Doesn't match the filter
+_boo = "boo" // Bad.  Not referenced, and matches the filter.
+```
+
 :+1: Examples of **correct** code for this rule:
 
 ```peg.js
@@ -26,6 +33,19 @@ import baz from "./baz.js"
 foo = bar / baz
 bar = "2"
 ```
+
+```peg.js
+// eslint @peggyjs/no-unused-rules: ["error", {filter: "^_"}]
+foo = _boo
+bar = "bar" // Doesn't match the filter
+_boo = "boo"
+```
+
+### Options
+
+The first option can be an object with the key "filter".  The filter is treated
+as a regular expression; only rules that match this expression will cause
+errors if they are unused.
 
 ## 🔎 Implementation
 
