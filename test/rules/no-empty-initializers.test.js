@@ -1,6 +1,6 @@
 "use strict";
 
-const rule = require("../../lib/rules/no-empty-initializers").default;
+const rule = require("../../lib/rules/no-empty-initializers");
 const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester({

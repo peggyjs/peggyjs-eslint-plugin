@@ -1,6 +1,6 @@
 "use strict";
 
-const rule = require("../../lib/rules/no-empty-code-blocks").default;
+const rule = require("../../lib/rules/no-empty-code-blocks");
 const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester({

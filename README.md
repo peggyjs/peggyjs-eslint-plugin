@@ -11,34 +11,12 @@ Install with:
 npm install --save-dev @peggyjs/eslint-plugin @peggyjs/eslint-parser eslint
 ```
 
-(update this when we publish!)
-
 Add to your `.eslintrc.js` file:
 
 ```js
 module.exports = {
   extends: ["plugin:@peggyjs/recommended"],
 };
-```
-
-Or, if you are using ESLint Flat configs, add this to your `eslint.config.js`
-file:
-
-```js
-// ESM
-import peggylint from "@peggyjs/eslint-plugin/lib/flat/recommended.js"
-export default [
-  peggyLint,
-];
-```
-
-Or:
-
-```js
-// CommonJS
-module.exports = [
-  ...require("@peggyjs/eslint-plugin/lib/flat/recommended.js"),
-];
 ```
 
 You can also use "plugin:@peggyjs/all" or  to get ALL of the rules.
@@ -70,6 +48,26 @@ module.exports = {
     },
   ],
 };
+```
+
+Or, if you are using ESLint Flat configs, add this to your `eslint.config.js`
+file:
+
+```js
+// ESM
+import peggylint from "@peggyjs/eslint-plugin/lib/flat/recommended.js"
+export default [
+  peggyLint,
+];
+```
+
+Or:
+
+```js
+// CommonJS
+module.exports = [
+  ...require("@peggyjs/eslint-plugin/lib/flat/recommended.js"),
+];
 ```
 
 ## VSCode

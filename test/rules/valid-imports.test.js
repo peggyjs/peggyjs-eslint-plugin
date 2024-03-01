@@ -1,6 +1,6 @@
 "use strict";
 
-const rule = require("../../lib/rules/valid-imports").default;
+const rule = require("../../lib/rules/valid-imports");
 const RuleTester = require("eslint").RuleTester;
 
 const filename = __filename;

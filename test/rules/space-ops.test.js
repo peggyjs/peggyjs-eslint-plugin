@@ -1,6 +1,6 @@
 "use strict";
 
-const rule = require("../../lib/rules/space-ops").default;
+const rule = require("../../lib/rules/space-ops");
 const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester({

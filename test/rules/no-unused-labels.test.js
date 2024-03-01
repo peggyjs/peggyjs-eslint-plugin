@@ -1,6 +1,6 @@
 "use strict";
 
-const rule = require("../../lib/rules/no-unused-labels").default;
+const rule = require("../../lib/rules/no-unused-labels");
 const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester({
