@@ -1,6 +1,6 @@
 "use strict";
 
-const rule = require("../../lib/rules/separate-choices").default;
+const rule = require("../../lib/rules/separate-choices");
 const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester({

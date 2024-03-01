@@ -1,6 +1,6 @@
 "use strict";
 
-const rule = require("../../lib/rules/quotes").default;
+const rule = require("../../lib/rules/quotes");
 const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester({

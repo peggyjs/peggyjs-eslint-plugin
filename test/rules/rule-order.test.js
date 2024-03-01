@@ -1,6 +1,6 @@
 "use strict";
 
-const rule = require("../../lib/rules/rule-order").default;
+const rule = require("../../lib/rules/rule-order");
 const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester({

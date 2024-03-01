@@ -1,6 +1,6 @@
 "use strict";
 
-const rule = require("../../lib/rules/semantic-predicate-must-return").default;
+const rule = require("../../lib/rules/semantic-predicate-must-return");
 const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester({

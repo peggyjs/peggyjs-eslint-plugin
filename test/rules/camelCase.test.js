@@ -1,6 +1,6 @@
 "use strict";
 
-const rule = require("../../lib/rules/camelCase").default;
+const rule = require("../../lib/rules/camelCase");
 const RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester({
