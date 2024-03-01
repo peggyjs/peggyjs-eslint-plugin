@@ -25,8 +25,8 @@ export function dirMap(...dirs: string[]): { [id: string]: object } {
       .map(fileName => fileName.replace(/\.js$/, ""))
       .map(entryName => [
         entryName,
-        // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-        require(path.join(dirName, entryName)).default,
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        require(path.join(dirName, entryName)),
       ])
   );
 }
