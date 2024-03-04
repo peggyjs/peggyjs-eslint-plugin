@@ -20,45 +20,58 @@ foo
   });
 
   it("post-processes", () => {
-    const messages = [[], [{
-      ruleId: "semi",
-      severity: 2,
-      message: "Semicolon required",
-      line: 300,
-      column: 26,
-      endLine: 4,
-      endColumn: 1,
-    }, {
-      ruleId: "no-unused-vars",
-      severity: 2,
-      message: "'o' is defined but never used.",
-      line: 31,
-      column: 19,
-      nodeType: "Identifier",
-      messageId: "unusedVar",
-      endLine: 31,
-      endColumn: 20,
-    }, {
-      ruleId: "no-unused-vars",
-      severity: 2,
-      message: "'t' is defined but never used.",
-      line: 31,
-      column: 22,
-      nodeType: "Identifier",
-      messageId: "unusedVar",
-      endLine: 31,
-      endColumn: 23,
-    }, {
-      ruleId: "example",
-      severity: 2,
-      message: "No end in sight",
-      line: 31,
-      column: 22,
-      nodeType: "none",
-    }]];
+    const messages = [[], [
+      {
+        ruleId: "semi",
+        severity: 2,
+        message: "Semicolon required",
+        line: 3,
+        column: 24,
+        endLine: 4,
+        endColumn: 1,
+      },
+      {
+        ruleId: "no-unused-vars",
+        severity: 2,
+        message: "'o' is defined but never used.",
+        line: 31,
+        column: 5,
+        nodeType: "Identifier",
+        messageId: "unusedVar",
+        endLine: 31,
+        endColumn: 6,
+      },
+      {
+        ruleId: "no-unused-vars",
+        severity: 2,
+        message: "'t' is defined but never used.",
+        line: 32,
+        column: 5,
+        nodeType: "Identifier",
+        messageId: "unusedVar",
+        endLine: 32,
+        endColumn: 6,
+      },
+      {
+        ruleId: "example",
+        severity: 2,
+        message: "No end in sight",
+        line: 32,
+        column: 5,
+        nodeType: "none",
+      },
+      {
+        ruleId: "example2",
+        severity: 2,
+        message: "Invalid start",
+        line: 1,
+        column: 1,
+        nodeType: "none",
+      },
+    ]];
 
     const mapped = processor.postprocess(messages, "processor.peggy");
-    assert.equal(mapped.length, messages[1].length);
+    assert.equal(mapped.length, messages[1].length - 2);
 
     assert.throws(() => processor.postprocess(messages, "NOT_VALID"), /Map not found/);
   });
@@ -87,8 +100,8 @@ num = n:$[0-9]+ { return parseInt(n, BASE); }
         ruleId: "semi",
         severity: 2,
         message: "Missing semicolon.",
-        line: 24,
-        column: 34,
+        line: 3,
+        column: 32,
         nodeType: "VariableDeclaration",
         messageId: "missingSemi",
         endLine: 25,
