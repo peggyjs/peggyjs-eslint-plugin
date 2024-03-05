@@ -33,6 +33,10 @@ export enum Bias {
    * *next* non-boilerplate block.
    */
   GREATEST_LOWER_BOUND = 1,
+  /**
+   * If the position specified is in the boilerplate text, return null.
+   */
+  ERROR = 2,
 }
 
 /**
@@ -170,6 +174,9 @@ export class SourceChain {
           // Now we're sure we've got the right block
           if (!block.loc) {
             // But it's in the generated section.
+            if (bias === Bias.ERROR) {
+              return null;
+            }
             // Do we want the end of the previous block?
             if ((bias === Bias.LEAST_UPPER_BOUND) && prev?.loc) {
               if (prev.tail) {

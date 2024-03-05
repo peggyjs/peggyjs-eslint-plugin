@@ -274,6 +274,52 @@ parse("", {});
   ];
 }
 
+function sourceMapMessages(
+  messages: ESlint.Linter.LintMessage[],
+  map: SourceChain
+): ESlint.Linter.LintMessage[] {
+  const res: ESlint.Linter.LintMessage[] = [];
+  for (const msg of messages) {
+    debug("Before: %o", msg);
+    const start = map.originalLocation({
+      line: msg.line,
+      column: msg.column - 1, // Map is 0-based cols
+    }, Bias.ERROR);
+    debug("Start: %o", start);
+    if (start) {
+      msg.line = start.line;
+      msg.column = start.column + 1; // Message is 1-based cols
+    } else {
+      debug("Cound't find start location column: %d line %d", msg.line, msg.column);
+      continue;
+    }
+
+    const end
+      = (typeof msg.endLine === "number") && (typeof msg.endColumn === "number")
+        ? map.originalLocation({
+          line: msg.endLine,
+          column: msg.endColumn - 1,  // Map is 0-based cols
+        }, Bias.GREATEST_LOWER_BOUND)
+        : null;
+    if (end) {
+      msg.endLine = end.line;
+      msg.endColumn = end.column + 1; // Message is 1-based cols
+    } else {
+      debug("Cound't find end location column: %d line %d", msg.endLine, msg.endColumn);
+      continue;
+    }
+    if (msg.fix) {
+      msg.fix.range = [
+        map.originalOffset(msg.fix.range[0], Bias.LEAST_UPPER_BOUND),
+        map.originalOffset(msg.fix.range[1], Bias.GREATEST_LOWER_BOUND),
+      ];
+    }
+    debug("After: %o", msg);
+    res.push(msg);
+  }
+  return res;
+}
+
 /**
  * Put all of the line/column numbers back into the original file.
  *
@@ -292,45 +338,7 @@ export function postprocess(
 
   return [
     ...messages[0],
-    ...messages[1].map(msg => {
-      debug("Before: %o", msg);
-      const start = map.originalLocation({
-        line: msg.line,
-        column: msg.column - 1, // Map is 0-based cols
-      }, Bias.LEAST_UPPER_BOUND);
-      if (start) {
-        msg.line = start.line;
-        msg.column = start.column + 1; // Message is 1-based cols
-      } else {
-        msg.line = 1;
-        msg.column = 1;
-        debug("Cound't find start location column: %d line %d", msg.line, msg.column);
-      }
-
-      const end
-        = (typeof msg.endLine === "number") && (typeof msg.endColumn === "number")
-          ? map.originalLocation({
-            line: msg.endLine,
-            column: msg.endColumn - 1,  // Map is 0-based cols
-          }, Bias.GREATEST_LOWER_BOUND)
-          : null;
-      if (end) {
-        msg.endLine = end.line;
-        msg.endColumn = end.column + 1; // Message is 1-based cols
-      } else {
-        debug("Cound't find end location column: %d line %d", msg.endLine, msg.endColumn);
-        msg.endLine = undefined;
-        msg.endColumn = undefined;
-      }
-      if (msg.fix) {
-        msg.fix.range = [
-          map.originalOffset(msg.fix.range[0], Bias.LEAST_UPPER_BOUND),
-          map.originalOffset(msg.fix.range[1], Bias.GREATEST_LOWER_BOUND),
-        ];
-      }
-      debug("After: %o", msg);
-      return msg;
-    }),
+    ...sourceMapMessages(messages[1], map),
   ];
 }
 
