@@ -55,7 +55,7 @@ file:
 
 ```js
 // ESM
-import peggylint from "@peggyjs/eslint-plugin/lib/flat/recommended.js"
+import peggyLint from "@peggyjs/eslint-plugin/lib/flat/recommended.js"
 export default [
   peggyLint,
 ];
